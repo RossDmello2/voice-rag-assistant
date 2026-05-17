@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech-to-Speech AI Agent</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%236a67ff'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%239a97ff'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app-container">
+
+        <!-- ── STATUS BAR ──────────────────────────────────── -->
+        <div id="status-bar">
+            <div class="status-item" id="status-ollama">
+                <span class="status-dot"></span>
+                <span class="status-label">Ollama</span>
+                <span class="status-text">Checking…</span>
+            </div>
+            <div class="status-item" id="status-qdrant">
+                <span class="status-dot"></span>
+                <span class="status-label">Qdrant</span>
+                <span class="status-text">Checking…</span>
+            </div>
+            <div class="status-item" id="status-groq">
+                <span class="status-dot"></span>
+                <span class="status-label">Groq</span>
+                <span class="status-text">Checking…</span>
+            </div>
+            <div class="status-separator"></div>
+            <div class="status-item status-collection">
+                <span class="status-label">Collection:</span>
+                <select id="collection-select" class="status-select" disabled>
+                    <option value="">Loading…</option>
+                </select>
+            </div>
+            <div class="status-separator"></div>
+            <div class="status-item status-language hidden" id="status-language">
+                <span class="status-label">🌐</span>
+                <span class="status-text" id="active-language-label">English</span>
+            </div>
+        </div>
+
+        <!-- ── MAIN STAGE ──────────────────────────────────── -->
+        <div id="main-stage">
+
+            <!-- Agent Orb -->
+            <div id="agent-orb-container">
+                <canvas id="orb-canvas" width="200" height="200"></canvas>
+                <div id="phase-label">Initializing…</div>
+            </div>
+
+            <!-- Transcript Area -->
+            <div id="transcript-area">
+                <div class="message-list" id="message-list">
+                    <!-- Messages injected here by JS -->
+                </div>
+            </div>
+
+            <!-- Text Input Area -->
+            <div id="input-area">
+                <textarea id="text-input" placeholder="Type a message…" rows="1"></textarea>
+                <button id="send-btn" title="Send message" aria-label="Send message">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ── CONTROL BAR ─────────────────────────────────── -->
+        <div id="control-bar">
+            <button id="upload-btn" title="Upload document (Ctrl+U)" aria-label="Upload document">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48">
+                    </path>
+                </svg>
+            </button>
+
+            <button id="docs-btn" title="View documents" aria-label="View documents">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </button>
+            <button id="history-btn" title="Chat History (Ctrl+H)" aria-label="View history">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </button>
+
+            <button id="mic-btn" title="Start listening (Space)" aria-label="Toggle microphone">
+                <svg class="mic-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 01-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+                <svg class="stop-icon hidden" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                </svg>
+            </button>
+
+            <button id="stop-btn" class="hidden" title="Stop (Escape)" aria-label="Stop">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            </button>
+
+            <div id="handsfree-wrapper" title="Hands-free mode (Ctrl+Shift+H)">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="handsfree-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Auto</span>
+            </div>
+
+            <button id="settings-btn" title="Settings (Ctrl+,)" aria-label="Open settings">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- ── SETTINGS PANEL ──────────────────────────────── -->
+        <div id="settings-overlay" class="panel-overlay hidden"></div>
+        <div id="settings-panel" class="slide-panel slide-right hidden">
+            <div class="panel-header">
+                <h2>Settings</h2>
+                <button class="panel-close" id="settings-close" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="panel-body">
+
+                <!-- Voice Output -->
+                <div class="settings-group">
+                    <h3>Voice Output</h3>
+
+                    <div id="native-voice-group">
+                        <label class="setting-label" for="tts-hardware-select">Hardware Acceleration</label>
+                        <select id="tts-hardware-select" class="setting-input">
+                            <option value="cpu">CPU (Stable)</option>
+                            <option value="gpu">GPU (Fast - NVIDIA)</option>
+                        </select>
+
+                        <label class="setting-label" for="tts-voice-select" style="margin-top: 12px;">Voice Profile</label>
+                        <select id="tts-voice-select" class="setting-input">
+                            <option value="af_heart">af_heart (Default)</option>
+                        </select>
+                        
+                        <label class="setting-label" for="native-voice-search" style="margin-top: 8px; font-size: 11px; opacity: 0.7;">Quick Search Voices</label>
+                        <input type="text" id="native-voice-search" class="setting-input" placeholder="e.g. bella, adam..." style="margin-bottom: 8px;">
+                    </div>
+
+
+                    <label class="setting-label" for="tts-rate-slider">Speed: <span
+                            id="tts-rate-value">1.0</span></label>
+                    <input type="range" id="tts-rate-slider" class="setting-slider" min="0.5" max="2.0" step="0.1"
+                        value="1.0">
+
+                    <label class="setting-label" for="tts-pitch-slider">Pitch: <span
+                            id="tts-pitch-value">1.0</span></label>
+                    <input type="range" id="tts-pitch-slider" class="setting-slider" min="0.5" max="2.0" step="0.1"
+                        value="1.0">
+                </div>
+
+                <!-- Speech Input -->
+                <div class="settings-group">
+                    <h3>Speech Input</h3>
+
+                    <label class="setting-label" for="stt-engine-select">STT Engine</label>
+                    <select id="stt-engine-select" class="setting-input">
+                        <option value="browser">Browser Native (Local)</option>
+                        <option value="groq">Groq Whisper (Cloud)</option>
+                    </select>
+
+                    <label class="setting-label" for="stt-language-select">Conversation Language</label>
+                    <select id="stt-language-select" class="setting-input">
+                        <option value="en">English (Default)</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                        <option value="ru">Russian</option>
+                        <option value="ko">Korean</option>
+                        <option value="tr">Turkish</option>
+                        <option value="nl">Dutch</option>
+                        <option value="pl">Polish</option>
+                        <option value="sv">Swedish</option>
+                        <option value="id">Indonesian</option>
+                    </select>
+                    <p class="setting-hint" style="margin-top: 4px; font-size: 11px; color: var(--text-muted); line-height: 1.3;">
+                        🌐 When non-English is selected, your speech is translated for processing and responses are translated back.
+                    </p>
+
+                    <label class="setting-label" for="silence-timeout-slider">Silence Timeout: <span
+                            id="silence-timeout-value">1.5s</span></label>
+                    <input type="range" id="silence-timeout-slider" class="setting-slider" min="500" max="5000"
+                        step="100" value="1500">
+                </div>
+
+                <!-- Models -->
+                <div class="settings-group">
+                    <h3>Models</h3>
+
+                    <label class="setting-label" for="chat-model-select">Chat Model</label>
+                    <select id="chat-model-select" class="setting-input" disabled>
+                        <option value="">Loading models…</option>
+                    </select>
+
+                    <label class="setting-label" for="embed-model-select">Embedding Model</label>
+                    <select id="embed-model-select" class="setting-input" disabled>
+                        <option value="">Loading models…</option>
+                    </select>
+                    <p class="setting-hint">⚠ Changing the embedding model requires re-uploading all documents.</p>
+                </div>
+
+                <!-- Collection -->
+                <div class="settings-group">
+                    <h3>Collection</h3>
+                    <label class="setting-label" for="settings-collection-select">Active Collection</label>
+                    <select id="settings-collection-select" class="setting-input" disabled>
+                        <option value="">Loading…</option>
+                    </select>
+                    <div id="new-collection-row" class="hidden">
+                        <input type="text" id="new-collection-input" class="setting-input" placeholder="New collection name…">
+                        <div class="new-collection-actions">
+                            <button id="new-collection-confirm" class="btn-sm">Create</button>
+                            <button id="new-collection-cancel" class="btn-sm btn-cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Keys -->
+                <div class="settings-group">
+                    <h3>API Keys</h3>
+
+                    <label class="setting-label" for="groq-key-input">Groq API Key</label>
+                    <div class="input-with-toggle">
+                        <input type="password" id="groq-key-input" class="setting-input"
+                            placeholder="Enter your Groq API key…">
+                        <button id="groq-key-toggle" class="input-toggle" aria-label="Toggle key visibility">👁</button>
+                    </div>
+                </div>
+
+                <!-- Pronunciation Dictionary -->
+                <div class="settings-group">
+                    <h3>Pronunciation Dictionary</h3>
+                    <div id="pronunciation-list">
+                        <!-- Pronunciation entries injected by JS -->
+                    </div>
+                    <div class="pronunciation-add">
+                        <input type="text" id="pron-word-input" class="setting-input-sm" placeholder="Word">
+                        <input type="text" id="pron-replacement-input" class="setting-input-sm"
+                            placeholder="Sounds like">
+                        <button id="pron-add-btn" class="btn-sm">Add</button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="settings-group">
+                    <h3>Actions</h3>
+                    <button id="new-chat-btn" class="btn-primary" style="margin-bottom: 8px; width: 100%;">➕ New Chat</button>
+                    <button id="clear-knowledge-btn" class="btn-danger">Clear Knowledge Base</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── DOCUMENTS PANEL ─────────────────────────────── -->
+        <div id="documents-overlay" class="panel-overlay hidden"></div>
+        <div id="documents-panel" class="slide-panel slide-left hidden">
+            <div class="panel-header">
+                <h2>Documents</h2>
+                <button class="panel-close" id="documents-close" aria-label="Close documents">&times;</button>
+            </div>
+            <div class="panel-body">
+
+                <!-- Drop Zone -->
+                <div id="drop-zone">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag &amp; drop files here</p>
+                    <p class="drop-hint">PDF, DOCX, TXT, CSV</p>
+                </div>
+
+                <!-- Ingestion Progress -->
+                <div id="ingestion-progress" class="hidden">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <p id="progress-text">Processing…</p>
+                </div>
+
+                <!-- Document List -->
+                <div id="document-list">
+                    <p class="empty-state">No documents uploaded yet.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── HISTORY PANEL ─────────────────────────────── -->
+        <div id="history-overlay" class="panel-overlay hidden"></div>
+        <div id="history-panel" class="slide-panel slide-left hidden" style="z-index: 1001;">
+            <div class="panel-header">
+                <h2>Chat History</h2>
+                <button class="panel-close" id="history-close" aria-label="Close history">&times;</button>
+            </div>
+            <div class="panel-body">
+                <div id="history-list">
+                    <p class="empty-state">No past conversations yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TOAST CONTAINER ─────────────────────────────── -->
+        <div id="toast-container"></div>
+
+        <!-- ── HIDDEN FILE INPUT ───────────────────────────── -->
+        <input type="file" id="file-input" accept=".pdf,.docx,.txt,.csv" class="hidden">
+
+    </div>
+
+
+
+    <!-- ── CDN DEPENDENCIES (PDF.js & mammoth removed — now server-side) ── -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.19/dist/bundle.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

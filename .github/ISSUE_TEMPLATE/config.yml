@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/RossDmello2/voice-agent/tree/main/docs
+    about: Check the documentation before opening an issue.
+  - name: Security Vulnerability
+    url: mailto:rossdmello869@gmail.com
+    about: Report security vulnerabilities by email, not as GitHub issues.

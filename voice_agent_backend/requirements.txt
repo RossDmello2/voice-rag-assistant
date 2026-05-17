@@ -1,0 +1,29 @@
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+httpx>=0.25.0
+python-multipart>=0.0.6
+pypdf>=3.17.0
+python-docx>=1.0.0
+slowapi>=0.1.9
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+sqlalchemy>=2.0.23
+aiosqlite>=0.19.0
+email-validator>=2.0.0
+
+# ── Voice Pipeline (LangGraph) ──
+langgraph>=0.2.0
+langchain-core>=0.3.0
+numpy>=1.24.0
+
+# ── Optional: Kokoro TTS (only needed if KOKORO_MODE=native or docker) ──
+kokoro-onnx>=0.3.0
+onnxruntime-gpu>=1.16.0
+misaki[en]>=0.5.0
+soundfile>=0.12.1
+
+
+# ── Optional: Search Tools ──
+duckduckgo-search>=6.0.0
