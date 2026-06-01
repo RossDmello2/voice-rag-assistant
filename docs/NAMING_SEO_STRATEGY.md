@@ -1,4 +1,4 @@
-﻿# Naming and SEO Strategy
+# Naming and SEO Strategy
 
 **Date:** 2026-06-01
 **Repository:** `RossDmello2/voice-rag-agent`

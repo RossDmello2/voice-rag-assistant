@@ -1,4 +1,4 @@
-﻿# Source Evidence for Public Identity Claims
+# Source Evidence for Public Identity Claims
 
 This file lists the repo facts used to update public docs and metadata. Every behavior claim below is backed by the inspected source path and line.
 

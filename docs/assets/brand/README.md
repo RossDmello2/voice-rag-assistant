@@ -1,4 +1,4 @@
-﻿# Brand Assets
+# Brand Assets
 
 Generated visuals in this folder are supporting artwork for documentation. They are not product screenshots and must not be used as proof of runtime behavior.
 

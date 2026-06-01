@@ -1,4 +1,4 @@
-﻿# GitHub Identity SEO Intelligence Snapshot
+# GitHub Identity SEO Intelligence Snapshot
 
 **Date:** 2026-06-01
 **Project root:** repository root for `RossDmello2/voice-rag-agent`

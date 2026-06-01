@@ -1,4 +1,4 @@
-﻿# Research Sources
+# Research Sources
 
 ## Official Discoverability Sources
 
