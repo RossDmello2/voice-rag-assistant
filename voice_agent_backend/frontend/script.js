@@ -216,8 +216,20 @@ var LANGUAGE_META = {
 function isBrowserSTT() { return CONFIG.STT_ENGINE === 'browser'; }
 function getActiveLanguageMeta() { return LANGUAGE_META[STATE.translation.activeLanguage] || LANGUAGE_META['en']; }
 function isNonEnglishMode() { return CONFIG.ENABLE_TRANSLATION && STATE.translation.activeLanguage !== 'en'; }
+function randomSessionSuffix() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+    if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+        var bytes = new Uint8Array(16);
+        window.crypto.getRandomValues(bytes);
+        bytes[6] = (bytes[6] & 0x0f) | 0x40;
+        bytes[8] = (bytes[8] & 0x3f) | 0x80;
+        var hex = Array.prototype.map.call(bytes, function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+        return hex.slice(0, 8) + '-' + hex.slice(8, 12) + '-' + hex.slice(12, 16) + '-' + hex.slice(16, 20) + '-' + hex.slice(20);
+    }
+    return String(Date.now());
+}
 function getOrCreateSessionId() {
-    if (!STATE.conversation.currentSessionId) STATE.conversation.currentSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+    if (!STATE.conversation.currentSessionId) STATE.conversation.currentSessionId = 'session_' + randomSessionSuffix();
     return STATE.conversation.currentSessionId;
 }
 
@@ -1584,10 +1596,12 @@ function toggleListening() {
 //  SECTION 10: TEXT PREPROCESSOR
 // ═══════════════════════════════════════════════════════════════
 
+function escapeRegExp(text) { return String(text).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
 var TextPreprocessor = {
     abbreviations: { 'Dr.': 'Doctor', 'Mr.': 'Mister', 'Mrs.': 'Missus', 'Ms.': 'Miz', 'Prof.': 'Professor', 'Jr.': 'Junior', 'Sr.': 'Senior', 'St.': 'Saint', 'vs.': 'versus', 'etc.': 'etcetera', 'approx.': 'approximately', 'dept.': 'department', 'est.': 'established', 'govt.': 'government', 'inc.': 'incorporated', 'corp.': 'corporation', 'ltd.': 'limited', 'Jan.': 'January', 'Feb.': 'February', 'Mar.': 'March', 'Apr.': 'April', 'Jun.': 'June', 'Jul.': 'July', 'Aug.': 'August', 'Sep.': 'September', 'Oct.': 'October', 'Nov.': 'November', 'Dec.': 'December', 'e.g.': 'for example', 'i.e.': 'that is', 'p.m.': 'PM', 'a.m.': 'AM' },
     stripMarkdown: function (text) { return text.replace(/```[\s\S]*?```/g, '').replace(/`([^`]+)`/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1').replace(/^#{1,6}\s+/gm, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/^\s*[-*+]\s+/gm, '').replace(/^\s*\d+\.\s+/gm, '').replace(/\|/g, ', ').replace(/^[-:| ]+$/gm, '').replace(/>\s?/g, '').replace(/~~([^~]+)~~/g, '$1').trim(); },
-    expandAbbreviations: function (text) { if (!CONFIG.EXPAND_ABBREVIATIONS) return text; var result = text; var abbrevs = Object.assign({}, this.abbreviations); Object.keys(abbrevs).forEach(function (abbr) { var escaped = abbr.replace(/\./g, '\\.'); result = result.replace(new RegExp('\\b' + escaped, 'g'), abbrevs[abbr]); }); return result; },
+    expandAbbreviations: function (text) { if (!CONFIG.EXPAND_ABBREVIATIONS) return text; var result = text; var abbrevs = Object.assign({}, this.abbreviations); Object.keys(abbrevs).forEach(function (abbr) { var escaped = escapeRegExp(abbr); result = result.replace(new RegExp('\\b' + escaped, 'g'), abbrevs[abbr]); }); return result; },
     numberToWords: function (n) { if (n === 0) return 'zero'; var ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']; var tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']; function below1000(num) { if (num < 20) return ones[num]; if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 ? '-' + ones[num % 10] : ''); return ones[Math.floor(num / 100)] + ' hundred' + (num % 100 ? ' ' + below1000(num % 100) : ''); } var neg = n < 0; n = Math.abs(n); var str = ''; if (n >= 1000000000) { str += below1000(Math.floor(n / 1e9)) + ' billion '; n %= 1e9; } if (n >= 1000000) { str += below1000(Math.floor(n / 1e6)) + ' million '; n %= 1e6; } if (n >= 1000) { str += below1000(Math.floor(n / 1e3)) + ' thousand '; n %= 1e3; } if (n > 0) str += below1000(n); return (neg ? 'negative ' : '') + str.trim(); },
     normalizeNumbers: function (text) { if (!CONFIG.NUMBERS_TO_WORDS) return text; var self = this; text = text.replace(/\$([0-9,]+)(?:\.(\d+))?/g, function (m, whole, cents) { var w = parseInt(whole.replace(/,/g, ''), 10); var str = self.numberToWords(w) + ' dollar' + (w !== 1 ? 's' : ''); if (cents) { var c = parseInt(cents, 10); str += ' and ' + self.numberToWords(c) + ' cent' + (c !== 1 ? 's' : ''); } return str; }); text = text.replace(/\b([0-9]{1,3}(?:,[0-9]{3})*)\b/g, function (m) { var n = parseInt(m.replace(/,/g, ''), 10); if (n > 1900 && n < 2100) return m; if (n > 999999) return m; return self.numberToWords(n); }); return text; },
     applyCustomPronunciations: function (text) { var prons = STATE.pronunciations || {}; Object.keys(prons).forEach(function (word) { var re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi'); text = text.replace(re, prons[word]); }); return text; },

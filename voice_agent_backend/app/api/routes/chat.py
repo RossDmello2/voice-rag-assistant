@@ -257,8 +257,9 @@ async def chat_endpoint(
                     ttft_logged = True
                 full_response += token
                 yield f"data: {json.dumps({'token': token})}\n\n"
-        except Exception as e:
-            error_msg = f"Sorry, I encountered an error: {str(e)}"
+        except Exception:
+            logger.exception("Chat completion stream failed")
+            error_msg = "Sorry, I encountered an error while generating a response."
             yield f"data: {json.dumps({'token': error_msg})}\n\n"
             full_response = error_msg
 
@@ -320,9 +321,9 @@ async def chat_predict_endpoint(req: ChatStreamRequest):
             "time": now
         }
         return {"status": "success"}
-    except Exception as e:
-        logger.error(f"Predictive RAG failed: {e}")
-        return {"status": "error", "detail": str(e)}
+    except Exception:
+        logger.exception("Predictive RAG failed")
+        return {"status": "error", "detail": "Predictive RAG failed"}
 
 
 @router.post("/chat/backchannel/{session_id}")
