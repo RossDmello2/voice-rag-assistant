@@ -1,17 +1,18 @@
 # Naming and SEO Strategy
 
 **Date:** 2026-06-01
-**Repository:** `RossDmello2/voice-rag-agent`
+**Repository:** `RossDmello2/voice-rag-assistant`
 **Current display name:** VoiceRAG Agent
-**Decision:** Keep the current repository slug unless the owner explicitly approves a rename.
+**Decision:** Rename approved by the owner on 2026-06-01. Keep the runtime display name `VoiceRAG Agent`; use `voice-rag-assistant` as the public GitHub slug.
 
 ## 1. Current Identity Audit
 
 | Surface | Current state | Assessment |
 | --- | --- | --- |
-| Repository slug | `voice-rag-agent` | Strong. It contains the high-intent keywords `voice`, `rag`, and `agent` in a short kebab-case slug. |
-| README title | `VoiceRAG Agent` | Strong. Short, memorable, and maps directly to the repo slug. |
-| GitHub description | Local-first voice-to-voice RAG assistant with FastAPI, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro ONNX TTS, and a vanilla JS UI. | Accurate and keyword-rich, but slightly dense. |
+| Repository slug | `voice-rag-assistant` | Strong. It contains the high-intent keywords `voice`, `rag`, and `assistant`, which are clearer for beginners searching for a usable project. |
+| Previous slug | `voice-rag-agent` | Still an accurate phrase, but the owner approved the clearer `assistant` slug after this analysis. |
+| README title | `VoiceRAG Agent` | Strong. Short, memorable, and still matches the source-backed runtime display name. |
+| GitHub description | Local-first voice RAG assistant for talking to documents with FastAPI, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro TTS, and vanilla JS. | Accurate, keyword-rich, and aligned with the live GitHub metadata. |
 | Topics | 20 accurate topics covering language, framework, AI/RAG, voice, storage, and self-hosting. | Strong; GitHub allows up to 20 topics and the repo is already at that limit. |
 | README first paragraph | Explains self-hosted document chat, FastAPI UI, Qdrant retrieval, Ollama embeddings, SSE, and Kokoro speech. | Accurate; can be made more direct for non-technical visitors. |
 | Visuals | Real screenshots and a deterministic social-preview image. | Strong proof. Add one clearly labeled conceptual workflow visual for faster comprehension. |
@@ -19,7 +20,7 @@
 
 What is working:
 
-- The name already matches how people search this niche: `voice rag assistant`, `rag voice assistant`, and `voice rag agent`.
+- The name and slug match how people search this niche: `voice rag assistant`, `rag voice assistant`, and `voice rag agent`.
 - The README has real screenshots near the top, not fake mockups.
 - The repo has source-backed setup, test, API, deployment, security, and contribution sections.
 - CI, CodeQL, Dependabot, and community files provide professional trust signals.
@@ -125,21 +126,21 @@ Rejected naming directions:
 
 ## 6. Top 3 Recommendations
 
-### 1. Keep: VoiceRAG Agent
+### 1. Current: VoiceRAG Agent
 
 - Display name: `VoiceRAG Agent`
-- Repo slug: `voice-rag-agent`
+- Repo slug: `voice-rag-assistant`
 - Tagline: `Talk to your documents with a local-first voice RAG assistant.`
 - GitHub description: `Local-first voice RAG assistant for talking to documents with FastAPI, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro TTS, and vanilla JS.`
-- Risk/tradeoff: `VoiceRAG` is not unique across GitHub, but the current slug is clear and searchable.
+- Risk/tradeoff: The slug uses `assistant` while the runtime title remains `VoiceRAG Agent`. That is acceptable for discoverability, but a future product rename would require explicit approval to edit core frontend metadata/source.
 
-### 2. Alternative: VoiceRAG Assistant
+### 2. Alternative Runtime Brand: VoiceRAG Assistant
 
 - Display name: `VoiceRAG Assistant`
 - Repo slug: `voice-rag-assistant`
 - Tagline: `Ask your documents questions by voice, then hear grounded answers back.`
 - GitHub description: `Self-hosted voice RAG assistant for document Q&A with FastAPI, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro TTS, and vanilla JS.`
-- Risk/tradeoff: Strong beginner clarity, but the slug collides with many similarly named repos and would require explicit owner approval.
+- Risk/tradeoff: Strong beginner clarity, but changing the runtime display name would touch core frontend code that is outside this documentation-only pass.
 
 ### 3. Alternative: Local VoiceRAG
 
@@ -190,8 +191,6 @@ Follow immediately with:
 
 ## 9. Final Recommendation
 
-Keep the actual GitHub repository slug as `voice-rag-agent`.
+Use `voice-rag-assistant` as the actual GitHub repository slug. The owner explicitly approved the rename on 2026-06-01, and the new slug improves beginner-facing search intent without changing runtime behavior.
 
-Do not rename the repository without explicit owner approval. A rename would affect clone URLs, badges, README links, existing search signals, and downstream references. The current slug is already one of the strongest honest keyword combinations for this project.
-
-If the owner later approves a rename, the only serious alternative is `voice-rag-assistant`, but the improvement is not large enough to justify URL churn right now.
+Keep `VoiceRAG Agent` as the README title and runtime display name for now because that name is source-backed by the existing app metadata. If the owner later wants the product name itself changed to `VoiceRAG Assistant`, treat that as a separate core-code branding task.

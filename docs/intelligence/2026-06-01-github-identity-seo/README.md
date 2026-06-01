@@ -1,7 +1,7 @@
 # GitHub Identity SEO Intelligence Snapshot
 
 **Date:** 2026-06-01
-**Project root:** repository root for `RossDmello2/voice-rag-agent`
+**Project root:** repository root for `RossDmello2/voice-rag-assistant`
 **Output directory:** `docs/intelligence/2026-06-01-github-identity-seo/`
 **Scope:** Targeted source-grounded intelligence pass for GitHub identity, naming, README claims, visual presentation, and discoverability.
 **Mutation boundary:** Documentation and public assets only. Core runtime files were read for evidence and not edited.

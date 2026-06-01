@@ -6,14 +6,14 @@
 | Gate | Command/Evidence | Result | Notes |
 | --- | --- | --- | --- |
 | Branch created | `git branch --show-current` | PASS | Working branch for this docs/metadata pass: `codex/github-identity-seo`. |
-| GitHub repository created | `gh repo view RossDmello2/voice-rag-agent --json nameWithOwner,visibility,description,url` | PASS | Repository is public and `origin` points to `https://github.com/RossDmello2/voice-rag-agent.git`. |
-| GitHub topics configured | `gh repo view RossDmello2/voice-rag-agent --json repositoryTopics` | PASS | All 20 planned topics are configured. |
-| Branch protection | `gh api repos/RossDmello2/voice-rag-agent/branches/main/protection` | PASS | `main` requires `lint`, `test (3.11)`, `Analyze (python)`, and `Analyze (javascript-typescript)`; force pushes and deletions are disabled. |
+| GitHub repository renamed | `gh repo view RossDmello2/voice-rag-assistant --json nameWithOwner,visibility,description,url` | PASS | Repository is public and `origin` points to `https://github.com/RossDmello2/voice-rag-assistant.git`. |
+| GitHub topics configured | `gh repo view RossDmello2/voice-rag-assistant --json repositoryTopics` | PASS | All 20 planned topics are configured. |
+| Branch protection | `gh api repos/RossDmello2/voice-rag-assistant/branches/main/protection` | PASS | `main` requires `lint`, `test (3.11)`, `Analyze (python)`, and `Analyze (javascript-typescript)`; force pushes and deletions are disabled. |
 | GitHub security automation | `gh api .../vulnerability-alerts`; `gh api .../automated-security-fixes` | PASS | Dependabot vulnerability alerts and automated security fixes are enabled or already enabled. |
-| Remote CI | `gh run list --repo RossDmello2/voice-rag-agent --branch main` | PASS | Latest `CI` run for the current `main` commit completed successfully. |
-| Remote CodeQL | `gh run list --repo RossDmello2/voice-rag-agent --branch main` | PASS | Latest `CodeQL` run for the current `main` commit completed successfully. |
-| Code scanning alerts | `gh api 'repos/RossDmello2/voice-rag-agent/code-scanning/alerts?state=open&per_page=100' --jq 'length'` | PASS | GitHub reports `0` open code-scanning alerts after the 2026-06-01 CodeQL fix and rescan. |
-| Private vulnerability reporting | `gh api repos/RossDmello2/voice-rag-agent/private-vulnerability-reporting` | PASS | Enabled for private security reports through GitHub Security Advisories. |
+| Remote CI | `gh run list --repo RossDmello2/voice-rag-assistant --branch main` | PASS | Latest `CI` run for the current `main` commit completed successfully. |
+| Remote CodeQL | `gh run list --repo RossDmello2/voice-rag-assistant --branch main` | PASS | Latest `CodeQL` run for the current `main` commit completed successfully. |
+| Code scanning alerts | `gh api 'repos/RossDmello2/voice-rag-assistant/code-scanning/alerts?state=open&per_page=100' --jq 'length'` | PASS | GitHub reports `0` open code-scanning alerts after the 2026-06-01 CodeQL fix and rescan. |
+| Private vulnerability reporting | `gh api repos/RossDmello2/voice-rag-assistant/private-vulnerability-reporting` | PASS | Enabled for private security reports through GitHub Security Advisories. |
 | Issue forms | PyYAML parse of `.github/ISSUE_TEMPLATE/*.yml` | PASS | `bug_report.yml`, `feature_request.yml`, and `config.yml` parse successfully. |
 | Local artifact ignore | `git check-ignore voice_agent_backend/.env voice_agent_backend/data/models/kokoro-v1.0.onnx voice_agent_backend/data/sqlite/voice_agent.db` | PASS | `.env`, Kokoro ONNX, and SQLite DB are ignored. |
 | No tracked secrets/artifacts | `git ls-files \| rg "(^|/)\\.env$|\\.onnx$|\\.bin$|voice_agent_backend/data/sqlite/.*\\.(db|sqlite|sqlite3)$"` | PASS | No tracked `.env`, model binary, or runtime DB artifacts. |

@@ -8,7 +8,7 @@ Product shape decision: `docs/operations/PRODUCT_SHAPE_DECISION.md`
 ## What Changed
 
 - Initialized git and created a baseline commit so this productionization pass is reviewable as a diff.
-- Established the public VoiceRAG Agent identity and GitHub repository target `RossDmello2/voice-rag-agent`.
+- Established the public VoiceRAG Agent identity and GitHub repository target now published as `RossDmello2/voice-rag-assistant`.
 - Mounted the existing auth router and added frontend sign-in/register/logout flow.
 - Protected document ingestion and collection/document mutation routes with JWT bearer auth.
 - Kept local-first read/chat/health/model endpoints public.

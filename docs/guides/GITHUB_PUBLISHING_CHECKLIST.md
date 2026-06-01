@@ -1,10 +1,10 @@
 # GitHub Publishing Checklist
 
-Use this checklist when publishing VoiceRAG Agent to `RossDmello2/voice-rag-agent`.
+Use this checklist when publishing VoiceRAG Agent to `RossDmello2/voice-rag-assistant`.
 
 ## Repository Setup
 
-- Create a public GitHub repository named `voice-rag-agent`.
+- Create a public GitHub repository named `voice-rag-assistant`.
 - Add `origin` to the local repository.
 - Push `main` and the active contribution branch.
 - Set the repository description from `docs/operations/DISCOVERABILITY_PLAN.md`.

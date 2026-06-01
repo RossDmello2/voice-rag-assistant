@@ -1,7 +1,7 @@
 # VoiceRAG Agent
 
-[![CI](https://github.com/RossDmello2/voice-rag-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/RossDmello2/voice-rag-agent/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/RossDmello2/voice-rag-agent/actions/workflows/codeql.yml/badge.svg)](https://github.com/RossDmello2/voice-rag-agent/actions/workflows/codeql.yml)
+[![CI](https://github.com/RossDmello2/voice-rag-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/RossDmello2/voice-rag-assistant/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/RossDmello2/voice-rag-assistant/actions/workflows/codeql.yml/badge.svg)](https://github.com/RossDmello2/voice-rag-assistant/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-009688.svg)](https://fastapi.tiangolo.com/)
@@ -96,8 +96,8 @@ Feature ownership and extension guidance live in [docs/features/README.md](docs/
 ### Installation
 
 ```bash
-git clone https://github.com/RossDmello2/voice-rag-agent.git
-cd voice-rag-agent
+git clone https://github.com/RossDmello2/voice-rag-assistant.git
+cd voice-rag-assistant
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r voice_agent_backend/requirements.txt
@@ -152,7 +152,7 @@ See [.env.example](.env.example) for the full configuration surface.
 ## Project Structure
 
 ```text
-voice-rag-agent/
+voice-rag-assistant/
 |-- .github/                       GitHub workflows and issue/PR templates
 |-- docs/
 |   |-- README.md                   Contributor documentation index

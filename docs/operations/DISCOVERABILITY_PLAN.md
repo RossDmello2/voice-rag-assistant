@@ -2,7 +2,7 @@
 
 Date: 2026-06-01
 Project identity: VoiceRAG Agent
-Repository slug: `RossDmello2/voice-rag-agent`
+Repository slug: `RossDmello2/voice-rag-assistant`
 
 ## Positioning
 
@@ -16,7 +16,7 @@ This is intentionally precise. The project is not a generic agent framework, a h
 
 GitHub repository discovery depends heavily on the repository name, description, topics, and README. Google can use page titles, headings, snippets, meta descriptions, and nearby image context. The project therefore optimizes the surfaces it controls:
 
-- Repository name: `voice-rag-agent`
+- Repository name: `voice-rag-assistant`
 - Display name: `VoiceRAG Agent`
 - README H1, tagline, feature language, and quickstart
 - GitHub description and topics

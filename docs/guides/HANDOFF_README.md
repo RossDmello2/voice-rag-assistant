@@ -16,7 +16,7 @@ It is self-hosted, but not fully offline by default because Groq-backed features
 ## Runtime Roots
 
 ```text
-voice-rag-agent/
+voice-rag-assistant/
 |-- README.md
 |-- .env.example
 |-- docs/
@@ -33,8 +33,8 @@ The app reads runtime configuration from `voice_agent_backend/.env`. Do not comm
 ## Local Setup
 
 ```bash
-git clone https://github.com/RossDmello2/voice-rag-agent.git
-cd voice-rag-agent
+git clone https://github.com/RossDmello2/voice-rag-assistant.git
+cd voice-rag-assistant
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r voice_agent_backend/requirements.txt

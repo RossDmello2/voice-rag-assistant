@@ -27,13 +27,13 @@ Build from the backend directory:
 
 ```bash
 cd voice_agent_backend
-docker build -t voice-rag-agent .
+docker build -t voice-rag-assistant .
 ```
 
 Run with a mounted `.env` file and local data directory:
 
 ```bash
-docker run --rm -p 8000:8000 --env-file .env -v "%cd%/data:/app/data" voice-rag-agent
+docker run --rm -p 8000:8000 --env-file .env -v "%cd%/data:/app/data" voice-rag-assistant
 ```
 
 The image starts Uvicorn with `${PORT:-8000}`, so hosted platforms that inject `PORT` can bind the expected port without editing the Dockerfile. The container expects Qdrant, Ollama, and any Kokoro sidecar to be reachable from inside Docker. Use host-network equivalents or service names when composing multiple containers.

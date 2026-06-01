@@ -10,7 +10,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 - `github-open-source-contribution` provided the repository-publication and public-readiness workflow.
 - `ultrathink` guided decomposition, gap checks, verification planning, and final review.
 - `fact-check-skill` was applied as a source-backed-claim discipline for README and documentation claims.
-- GitHub CLI and the GitHub plugin verified `RossDmello2/voice-rag-agent`, remote SHAs, Actions, CodeQL, branch protection, and metadata.
+- GitHub CLI and the GitHub plugin verified `RossDmello2/voice-rag-assistant`, remote SHAs, Actions, CodeQL, branch protection, and metadata.
 - Browser plugin tools were not exposed in this session, so Playwright drove the served local UI for browser smoke and screenshot capture.
 - `imagegen` guidance was used for visual rules; this later identity pass added one generated conceptual workflow visual under `docs/assets/brand/` and labels it as non-screenshot context.
 
@@ -24,7 +24,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 | Feature discoverability | IMPROVED | Added `docs/features/README.md` as the contributor-facing feature catalog and extension workflow. |
 | Architecture discoverability | IMPROVED | Added `docs/architecture/README.md` as the current architecture entry point and marked legacy architecture notes as historical. |
 | Runtime behavior | UNCHANGED | This pass intentionally avoided changes under `voice_agent_backend/app/` and `voice_agent_backend/frontend/`. |
-| GitHub remote | PASS | `origin` points to `https://github.com/RossDmello2/voice-rag-agent.git`. |
+| GitHub remote | PASS | `origin` points to `https://github.com/RossDmello2/voice-rag-assistant.git`. |
 | Discoverability metadata | PASS | Repository description and all 20 planned topics are configured through `gh repo edit`. |
 | Branch protection | PASS | `main` requires CI and CodeQL checks; force pushes and deletions are disabled. |
 | Remote checks | PASS | Main-branch CI and CodeQL completed successfully after the workflow dependency fix. |
@@ -43,7 +43,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 
 - Added `docs/architecture/README.md` as the canonical current architecture map.
 - Added `docs/features/README.md` so future contributors can start from a feature catalog without forcing a runtime package migration.
-- Added `docs/README.md`, `docs/operations/DISCOVERABILITY_PLAN.md`, `docs/guides/GITHUB_PUBLISHING_CHECKLIST.md`, and `docs/assets/README.md` for the `RossDmello2/voice-rag-agent` publishing path.
+- Added `docs/README.md`, `docs/operations/DISCOVERABILITY_PLAN.md`, `docs/guides/GITHUB_PUBLISHING_CHECKLIST.md`, and `docs/assets/README.md` for the `RossDmello2/voice-rag-assistant` publishing path.
 - Updated README, frontend metadata, issue links, docs references, and tests for the VoiceRAG Agent public identity.
 - Added README screenshots and a GitHub social preview source image under `docs/assets/`.
 - Added real sanitized `main-workflow` and `mobile` screenshots.
@@ -72,7 +72,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 | Test collection | PASS: 7 backend tests and 26 frontend tests collected. |
 | Import smoke | PASS: `ALL 20 IMPORTS PASSED`. |
 | App import | PASS: `Voice Agent API`. |
-| GitHub repository | PASS: `RossDmello2/voice-rag-agent` exists, is public, and has the expected description/topics. |
+| GitHub repository | PASS: `RossDmello2/voice-rag-assistant` exists, is public, and has the expected description/topics. |
 | Live browser smoke | PASS: temporary Uvicorn on `127.0.0.1:8023` rendered the UI, opened the documents panel, captured a sanitized chat workflow and mobile viewport, reported title `VoiceRAG Agent | Local Voice-to-Voice RAG Assistant`, and had no page errors. Browser console reported expected `navigator.vibrate` user-gesture warnings only. |
 | Diff whitespace | PASS: `git diff --check` reported only Windows CRLF conversion warnings. |
 
