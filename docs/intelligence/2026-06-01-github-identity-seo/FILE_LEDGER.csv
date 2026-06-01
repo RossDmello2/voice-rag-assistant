@@ -1,0 +1,26 @@
+path,lines,category,read_status,notes
+README.md,233,public docs,read,Current README and status language reviewed
+docs/README.md,21,public docs,read,Documentation index reviewed
+docs/assets/README.md,12,public assets,read,Asset inventory reviewed
+docs/operations/VERIFICATION_MATRIX.md,41,operations docs,read,Stale CodeQL gap found
+docs/operations/DISCOVERABILITY_PLAN.md,46,operations docs,read,Existing metadata plan reviewed
+docs/operations/OPEN_SOURCE_LANDSCAPE.md,31,operations docs,read,Comparable open-source references reviewed
+docs/operations/PRODUCT_UI_RESEARCH.md,22,operations docs,read,Existing visual/UI positioning reviewed
+.github/workflows/ci.yml,47,ci,read,CI workflow reviewed
+.github/workflows/codeql.yml,24,security automation,read,CodeQL workflow reviewed
+.github/dependabot.yml,25,dependency automation,read,Dependabot workflow reviewed
+.env.example,56,configuration,read,Placeholder env surface reviewed without reading real .env
+voice_agent_backend/app/main.py,122,backend source,read,Runtime entrypoint and frontend mount reviewed
+voice_agent_backend/app/core/config.py,150,backend source,read,Provider/storage/config evidence reviewed
+voice_agent_backend/app/api/routes/auth.py,42,backend source,read,Auth endpoints reviewed
+voice_agent_backend/app/api/routes/chat.py,544,backend source,read,Chat and voice graph endpoints reviewed
+voice_agent_backend/app/api/routes/collections.py,70,backend source,read,Collection auth boundary reviewed
+voice_agent_backend/app/api/routes/ingest.py,464,backend source,read,Ingestion auth and document workflow reviewed
+voice_agent_backend/app/api/routes/stt.py,14,backend source,read,STT endpoint reviewed
+voice_agent_backend/app/api/routes/tts.py,28,backend source,read,TTS endpoint reviewed
+voice_agent_backend/app/api/routes/health.py,39,backend source,read,Health endpoint reviewed
+voice_agent_backend/app/api/routes/models.py,35,backend source,read,Model-list endpoint reviewed
+voice_agent_backend/frontend/index.html,398,frontend source,read,Title/meta and CDN scripts reviewed, no edits made in this task
+voice_agent_backend/frontend/script.js,2427,frontend source,read,Frontend workflow and Markdown safety reviewed, no edits made in this task
+voice_agent_backend/tests/backend/test_auth_and_protection.py,163,tests,read,Auth/protection tests reviewed
+voice_agent_backend/tests/frontend/test_frontend.py,506,tests,read,Frontend Playwright tests reviewed

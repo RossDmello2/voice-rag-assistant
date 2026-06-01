@@ -8,7 +8,7 @@ Repository slug: `RossDmello2/voice-rag-agent`
 
 VoiceRAG Agent should be described consistently as:
 
-> Local-first voice-to-voice RAG assistant with FastAPI, vanilla JavaScript, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro ONNX TTS, and SQLite auth.
+> Local-first voice RAG assistant for talking to documents with FastAPI, vanilla JavaScript, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro ONNX TTS, and SQLite auth.
 
 This is intentionally precise. The project is not a generic agent framework, a hosted SaaS, or a fully offline assistant when Groq is enabled.
 
@@ -30,22 +30,23 @@ No change can guarantee top placement in GitHub or Google search. The goal is ac
 Description:
 
 ```text
-Local-first voice-to-voice RAG assistant with FastAPI, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro ONNX TTS, and a vanilla JS UI.
+Local-first voice RAG assistant for talking to documents with FastAPI, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro TTS, and vanilla JS.
 ```
 
 Topics:
 
 ```text
-voice-agent, voice-assistant, rag, retrieval-augmented-generation, ai-agent,
-fastapi, langgraph, qdrant, ollama, groq, kokoro-tts, speech-to-text,
-text-to-speech, self-hosted, local-first, document-qa, server-sent-events,
-vanilla-javascript, sqlite, python
+ai-agent, document-qa, fastapi, groq, kokoro-tts, langgraph, local-first,
+ollama, python, qdrant, rag, retrieval-augmented-generation, self-hosted,
+speech-to-text, sqlite, text-to-speech, vanilla-javascript, vector-database,
+voice-agent, voice-assistant
 ```
 
 ## Assets
 
 - `docs/assets/screenshots/home.png`: primary README screenshot.
 - `docs/assets/screenshots/auth-documents.png`: auth and document-management screenshot.
+- `docs/assets/brand/workflow-visual.png`: generated conceptual workflow visual; label as conceptual, not product evidence.
 - `docs/assets/social-preview.png`: GitHub social preview source image.
 
 If a hosted public app or docs site is added later, update the frontend canonical URL and Open Graph URL from the GitHub repository URL to the public site URL.
@@ -57,4 +58,3 @@ If a hosted public app or docs site is added later, update the frontend canonica
 - GitHub repository topics: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics
 - GitHub social preview: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview
 - GitHub community profile: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories
-

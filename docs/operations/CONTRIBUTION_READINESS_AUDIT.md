@@ -12,7 +12,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 - `fact-check-skill` was applied as a source-backed-claim discipline for README and documentation claims.
 - GitHub CLI and the GitHub plugin verified `RossDmello2/voice-rag-agent`, remote SHAs, Actions, CodeQL, branch protection, and metadata.
 - Browser plugin tools were not exposed in this session, so Playwright drove the served local UI for browser smoke and screenshot capture.
-- `imagegen` guidance was used for visual rules; no new AI-generated image was needed because real screenshots and the existing social preview asset were sufficient.
+- `imagegen` guidance was used for visual rules; this later identity pass added one generated conceptual workflow visual under `docs/assets/brand/` and labels it as non-screenshot context.
 
 ## Current Repository Posture
 
@@ -28,7 +28,7 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 | Discoverability metadata | PASS | Repository description and all 20 planned topics are configured through `gh repo edit`. |
 | Branch protection | PASS | `main` requires CI and CodeQL checks; force pushes and deletions are disabled. |
 | Remote checks | PASS | Main-branch CI and CodeQL completed successfully after the workflow dependency fix. |
-| Code scanning | GAP | CodeQL is enabled and passing, but 5 open alerts remain and need a separate core-code security PR. |
+| Code scanning | PASS | CodeQL is enabled and GitHub reported `0` open code-scanning alerts after the 2026-06-01 security fix and rescan. |
 
 ## Open-Source Standards Applied
 
@@ -79,12 +79,11 @@ Scope: open-source contribution structure, GitHub publishing, and discoverabilit
 ## Recommended Next PR Shape
 
 1. Upload `docs/assets/social-preview.png` in repository settings because the supported `gh` surface does not expose social-preview image upload.
-2. Address CodeQL alerts in a focused security PR that is allowed to touch core source code.
-3. Review Dependabot PRs one at a time; they opened automatically after publishing.
-4. Keep an eye on upstream GitHub Actions Node.js runtime deprecation warnings and update actions when v4/v6 replacements are available.
+2. Review Dependabot PRs one at a time; they opened automatically after publishing.
+3. Keep an eye on upstream GitHub Actions Node.js runtime deprecation warnings and update actions when v4/v6 replacements are available.
 
 ## Remaining Gaps
 
 - Hosted deployment still needs the blockers from `docs/intelligence/2026-05-28-codebase-intelligence-v3/SA10_DEPLOYMENT_READINESS.md` addressed.
 - GitHub social preview image upload requires a repository-settings action; the source image is already committed.
-- CodeQL has open alerts that are intentionally not patched here because this pass is constrained to repository presentation, docs, metadata, screenshots, and safe publishing.
+- Full provider-level smoke still requires local Qdrant/Ollama/Kokoro artifacts and valid Groq credentials.

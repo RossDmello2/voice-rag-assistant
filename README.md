@@ -6,11 +6,11 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-009688.svg)](https://fastapi.tiangolo.com/)
 
-> Local-first voice-to-voice RAG assistant with FastAPI, vanilla JavaScript, LangGraph, Qdrant, Ollama embeddings, Groq STT/chat, Kokoro ONNX TTS, and SQLite auth.
+> Talk to your documents with a local-first voice RAG assistant.
 
 ![VoiceRAG Agent home screen](docs/assets/screenshots/home.png)
 
-VoiceRAG Agent is a self-hosted assistant for talking to your documents. It serves a browser UI from FastAPI, accepts typed or spoken questions, retrieves context from Qdrant using Ollama embeddings, streams responses with Server-Sent Events, and can synthesize speech through Kokoro ONNX.
+VoiceRAG Agent is a local-first voice RAG assistant for talking to your documents. Upload files, ask questions by text or voice, stream grounded answers from a FastAPI backend, and optionally hear responses through Kokoro ONNX text-to-speech.
 
 The project is local-first, but not fully offline by default: Groq-backed speech-to-text, translation, and chat use cloud APIs when those providers are enabled.
 
@@ -20,9 +20,14 @@ More real UI views:
 | --- | --- | --- |
 | ![VoiceRAG Agent document upload panel](docs/assets/screenshots/auth-documents.png) | ![VoiceRAG Agent chat workflow with a sanitized demo response](docs/assets/screenshots/main-workflow.png) | ![VoiceRAG Agent mobile viewport](docs/assets/screenshots/mobile.png) |
 
+Conceptual workflow visual, not a product screenshot:
+
+![Conceptual VoiceRAG Agent workflow showing documents, speech input, retrieval, local services, and speech output](docs/assets/brand/workflow-visual.png)
+
 ## Table of Contents
 
 - [What It Does](#what-it-does)
+- [Who It Is For](#who-it-is-for)
 - [Architecture](#architecture)
 - [Feature Map](#feature-map)
 - [Quick Start](#quick-start)
@@ -50,6 +55,13 @@ More real UI views:
 - Supports Kokoro ONNX TTS with local model artifacts under `voice_agent_backend/data/models/`.
 - Exposes dependency health checks for Qdrant, Ollama, Groq, and local model availability.
 - Includes backend tests and Playwright frontend tests.
+
+## Who It Is For
+
+- Developers who want a readable FastAPI + LangGraph + Qdrant example for voice-enabled document QA.
+- AI builders comparing local-first RAG patterns with cloud-backed STT/chat providers.
+- Self-hosting users who want a browser-based assistant they can run and inspect locally.
+- Students and contributors who need a concrete, tested codebase for speech-to-text, retrieval, streaming chat, and text-to-speech workflows.
 
 ## Architecture
 
@@ -218,15 +230,17 @@ For public exposure, configure production secrets, restrict CORS, keep provider 
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, architecture boundaries, and pull request requirements. New contributors should also read [docs/README.md](docs/README.md).
 
+Repository naming, topics, and discoverability decisions are documented in [docs/NAMING_SEO_STRATEGY.md](docs/NAMING_SEO_STRATEGY.md).
+
 ## Security
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting. Do not report private keys, `.env` contents, model artifacts, or SQLite data in public issues.
 
-Current open security follow-ups are documented in [docs/operations/VERIFICATION_MATRIX.md](docs/operations/VERIFICATION_MATRIX.md). CodeQL is enabled and passing, but unresolved code-scanning alerts should be addressed before treating a hosted public deployment as hardened.
+Current security and verification follow-ups are documented in [docs/operations/VERIFICATION_MATRIX.md](docs/operations/VERIFICATION_MATRIX.md). CodeQL is enabled and currently reports no open code-scanning alerts as of the 2026-06-01 verification pass.
 
 ## Current Status
 
-**READY WITH GAPS.** The repository is public, documented, tested, and remotely verified, but provider-level smoke tests need local Qdrant/Ollama/Kokoro artifacts and Groq credentials, GitHub social preview upload is a manual repository-settings step, and CodeQL has open alerts that require core-code fixes outside this docs-only pass.
+**READY WITH GAPS.** The repository is public, documented, tested, and remotely verified, with CI and CodeQL passing. Remaining gaps are external to the committed source: full provider-level smoke tests need local Qdrant/Ollama/Kokoro artifacts and Groq credentials, and GitHub social preview upload is still a manual repository-settings step.
 
 ## License
 
