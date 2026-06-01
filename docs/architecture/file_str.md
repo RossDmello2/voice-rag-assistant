@@ -33,27 +33,27 @@ voice_agent_backend/
 ## 📄 2. Detailed File Logic
 
 ### 🏛️ Data Models & Infrastructure
-- **[schemas.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/models/schemas.py)**: Defines strict Pydantic models for every request/response (ChatStream, Ingestion, Interrupts).
-- **[logging.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/middleware/logging.py)**: Middleware that captures TTTF (Time to First Token), STT duration, and RAG search latency for every turn.
+- **[schemas.py](../../voice_agent_backend/app/models/schemas.py)**: Defines strict Pydantic models for every request/response (ChatStream, Ingestion, Interrupts).
+- **[logging.py](../../voice_agent_backend/app/middleware/logging.py)**: Middleware that captures TTTF (Time to First Token), STT duration, and RAG search latency for every turn.
 
 ### 🛰️ API Layer (`app/api/routes/`)
-- **[chat.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/api/routes/chat.py)**: The primary gateway for voice and text chat.
+- **[chat.py](../../voice_agent_backend/app/api/routes/chat.py)**: The primary gateway for voice and text chat.
     - **SSE Connection**: Manages the persistent Server-Sent Events stream.
     - **LangGraph Integration**: Invokes the `compiled_graph` and uses `stream_mode="custom"` to pipe out tokens/audio.
     - **Interrupts**: Supports a POST `/interrupt` endpoint to stop the agent mid-sentence.
-- **[ingest.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/api/routes/ingest.py)**: The knowledge ingestion pipeline.
+- **[ingest.py](../../voice_agent_backend/app/api/routes/ingest.py)**: The knowledge ingestion pipeline.
     - **Format Agnostic**: Supports PDF, DOCX, TXT, and CSV.
     - **Smart Chunking**: Uses `chunk_structured_lines` to preserve section headers and context.
     - **GPU Batching**: Parallelizes embeddings using `asyncio.gather` for max Nitro 5 performance.
 
 ### 🧠 Core Intelligence (`app/core/`)
-- **[voice_graph.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/voice_graph.py)**: The Orchestrator. Defines the LangGraph state machine structure and conditional edges.
-- **[graph_state.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/graph_state.py)**: Defines **`VoiceAgentState`**, the TypedDict that flows through every node (holds history, intent, context, and tts settings).
-- **[intent.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/intent.py)**: Two-tier classification. Uses fast Regex for common commands (STOP, UPLOAD) and LLM fallback for nuanced query detection.
-- **[langchain_rag.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/langchain_rag.py)**:
+- **[voice_graph.py](../../voice_agent_backend/app/core/voice_graph.py)**: The Orchestrator. Defines the LangGraph state machine structure and conditional edges.
+- **[graph_state.py](../../voice_agent_backend/app/core/graph_state.py)**: Defines **`VoiceAgentState`**, the TypedDict that flows through every node (holds history, intent, context, and tts settings).
+- **[intent.py](../../voice_agent_backend/app/core/intent.py)**: Two-tier classification. Uses fast Regex for common commands (STOP, UPLOAD) and LLM fallback for nuanced query detection.
+- **[langchain_rag.py](../../voice_agent_backend/app/core/langchain_rag.py)**:
     - **RRF (Reciprocal Rank Fusion)**: Merges results from multiple query variants.
     - **Hybrid Reranking**: Applies score boosts for Rare Words, Proper Nouns, and Data points (numbers/dates).
-- **[memory.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/memory.py)**: Singleton session manager. Stores the last `retrieval` and `history` per `session_id`.
+- **[memory.py](../../voice_agent_backend/app/core/memory.py)**: Singleton session manager. Stores the last `retrieval` and `history` per `session_id`.
 
 ### ⚡ Atomic Nodes (`app/core/nodes/`)
 1. **`translate_input`**: Normalizes slang and translates non-English input for the LLM.
@@ -65,12 +65,12 @@ voice_agent_backend/
 7. **`update_context`**: Final check. Appends the Q&A pair to persistent session history.
 
 ### 🛠️ Execution Services (`app/services/`)
-- **[speech_service.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/services/speech_service.py)**:
+- **[speech_service.py](../../voice_agent_backend/app/services/speech_service.py)**:
     - **SRT (Speech-Ready Text)**: Crucial regex substitution to convert `$10` → "ten dollars" and email symbols into words to prevent Kokoro errors.
     - **Kokoro-ONNX**: Native implementation using 24kHz PCM output. Uses a thread-safe producer-consumer queue for audio streaming.
-- **[onnx_runtime.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/core/onnx_runtime.py)**: Configures the ONNX environment (CUDA EP, IO threads) for the Nitro 5's GTX 1650.
-- **[ollama_service.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/services/ollama_service.py)**: Handles local embedding generation for documents and queries.
-- **[http_client.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_backend/app/services/http_client.py)**: **Singleton I/O**. Manages a shared `httpx.AsyncClient` pool to eliminate repeated handshake latency for Groq/Ollama API calls.
+- **[onnx_runtime.py](../../voice_agent_backend/app/core/onnx_runtime.py)**: Configures the ONNX environment (CUDA EP, IO threads) for the Nitro 5's GTX 1650.
+- **[ollama_service.py](../../voice_agent_backend/app/services/ollama_service.py)**: Handles local embedding generation for documents and queries.
+- **[http_client.py](../../voice_agent_backend/app/services/http_client.py)**: **Singleton I/O**. Manages a shared `httpx.AsyncClient` pool to eliminate repeated handshake latency for Groq/Ollama API calls.
 
 ### 🧪 Utilities & Testing (`scripts/`)
 - **`scripts/checks/verify_kokoro.py`**: Manual script to test GPU acceleration and SRT normalization without firing the full web server.

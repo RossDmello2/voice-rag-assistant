@@ -83,8 +83,8 @@
 | voice_agent_backend/app/services/speech_service.py:407 | groq_api_key = settings.GROQ_API_KEY |
 | voice_agent_backend/app/services/speech_service.py:408 | groq_base = settings.GROQ_BASE |
 | voice_agent_backend/app/services/speech_service.py:413 | "Authorization": f"Bearer {groq_api_key}", |
-| voice_agent_backend/context.md:168 | - **[http_client.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_back |
-| voice_agent_backend/file_str.md:68 | - **[http_client.py](file:///c:/Users/rossd/Dropbox/PC/Downloads/rag-demo-n8n-to-web/chatbot_static_files_fixed/voice%20agent/voice%20agent%20migration/voice_agent/voice_agent_back |
+| voice_agent_backend/context.md:168 | Legacy local file link redacted; current source is `voice_agent_backend/app/services/http_client.py`. |
+| voice_agent_backend/file_str.md:68 | Legacy local file link redacted; current source is `voice_agent_backend/app/services/http_client.py`. |
 | voice_agent_backend/frontend/script.js:331 | fetch('/chat/stream', { |
 | voice_agent_backend/frontend/script.js:462 | fetch('/chat/interrupt/' + this.activeThreadId, { |
 | voice_agent_backend/frontend/script.js:605 | return fetch(url, merged).then(function (resp) { |

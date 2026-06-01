@@ -43,7 +43,8 @@ The image starts Uvicorn with `${PORT:-8000}`, so hosted platforms that inject `
 - Set `APP_ENV=production`.
 - Use a strong `SECRET_KEY`; the fallback local secret is rejected in production mode.
 - Serve behind HTTPS.
-- Restrict `CORS_ORIGINS` and `ALLOWED_HOSTS`.
+- Restrict `CORS_ORIGINS`.
+- `ALLOWED_HOSTS` is currently configuration only; add host enforcement middleware before relying on it as a deployment control.
 - Do not expose Qdrant, Ollama, SQLite, `.env`, or model files directly.
 - Keep Groq/Tavily keys server-side only.
 - Add broader auth to chat/STT/TTS before hosting an open public endpoint with cost-bearing providers.

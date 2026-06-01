@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-17  
 **Project:** VoiceRAG Agent
-**Resolved root:** `C:\Users\rossd\OneDrive\Desktop\logic\voice_agent`
+**Resolved root:** `<repo-root>`
 
 ## Selected Shape
 

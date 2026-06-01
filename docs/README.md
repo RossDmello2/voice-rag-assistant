@@ -8,6 +8,8 @@ This directory is the contributor-facing documentation surface for VoiceRAG Agen
 | --- | --- |
 | Current architecture and module boundaries | [architecture/README.md](architecture/README.md) |
 | Feature ownership and extension workflow | [features/README.md](features/README.md) |
+| Beginner local setup handoff | [guides/HANDOFF_README.md](guides/HANDOFF_README.md) |
+| Short local operating procedure | [guides/sop(voice_agent).md](<guides/sop(voice_agent).md>) |
 | Local and container deployment notes | [deployment.md](deployment.md) |
 | GitHub publishing and repository settings | [guides/GITHUB_PUBLISHING_CHECKLIST.md](guides/GITHUB_PUBLISHING_CHECKLIST.md) |
 | Discoverability and SEO decisions | [operations/DISCOVERABILITY_PLAN.md](operations/DISCOVERABILITY_PLAN.md) |
@@ -19,4 +21,3 @@ This directory is the contributor-facing documentation surface for VoiceRAG Agen
 `docs/intelligence/` contains historical codebase-intelligence and deployment-readiness evidence. It is useful for audits and context, but newer contributors should prefer `docs/architecture/`, `docs/features/`, and `docs/operations/` for current behavior.
 
 Legacy guides in `docs/guides/` are preserved when still useful, but any guide with a legacy notice should not override the current README or architecture guide.
-

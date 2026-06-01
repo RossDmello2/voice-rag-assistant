@@ -13,18 +13,19 @@ Use this checklist when publishing VoiceRAG Agent to `RossDmello2/voice-rag-agen
 
 ## Community Profile
 
-- Confirm GitHub recognizes `README.md`, `LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, issue templates, and PR template.
-- Keep security reports out of public issues and route them through `SECURITY.md`.
+- Confirm GitHub recognizes `README.md`, `LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`, issue forms, and PR template.
+- Keep security reports out of public issues and route them through GitHub private vulnerability reporting.
 - Enable Discussions only if there is a maintainer ready to respond.
 
 ## Security Settings
 
 - Enable Dependabot alerts and security updates.
+- Enable private vulnerability reporting.
 - Keep secret scanning and push protection enabled when available for the account/repository.
 - Require CI and CodeQL before merging once the first branch-protection rule is configured.
+- Review open code-scanning alerts before marking a hosted public deployment as hardened.
 - Keep GitHub Actions permissions least-privilege by default.
 
 ## Verification
 
 Run the README verification commands before pushing a release tag. Hosted/provider smoke tests still require Qdrant, Ollama, Kokoro artifacts, and valid Groq credentials.
-

@@ -41,12 +41,13 @@
 - `CODE_OF_CONDUCT.md`
 - `CHANGELOG.md`
 - `SECURITY.md`
+- `SUPPORT.md`
 - `.gitignore`
 - `.env.example`
 - `requirements-dev.txt`
 - `.github/workflows/ci.yml`
-- `.github/ISSUE_TEMPLATE/bug_report.md`
-- `.github/ISSUE_TEMPLATE/feature_request.md`
+- `.github/ISSUE_TEMPLATE/bug_report.yml`
+- `.github/ISSUE_TEMPLATE/feature_request.yml`
 - `.github/ISSUE_TEMPLATE/config.yml`
 - `.github/PULL_REQUEST_TEMPLATE.md`
 - `.github/dependabot.yml`

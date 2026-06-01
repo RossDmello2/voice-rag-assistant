@@ -1,9 +1,9 @@
 # SA-7: Knowledge Graph
 
 Generated: 2026-05-28 11:20:25 +0530
-Project root: C:/Users/rossd/OneDrive/Desktop/logic/voice_agent
+Project root: <repo-root>
 Runtime app root: voice_agent_backend/
-Output directory: C:/Users/rossd/OneDrive/Desktop/logic/voice_agent/docs/intelligence/2026-05-28-codebase-intelligence-v3
+Output directory: <repo-root>/docs/intelligence/2026-05-28-codebase-intelligence-v3
 Artifact budget: exhaustive
 Target platforms: vercel, render, railway
 Deployment mode: detect

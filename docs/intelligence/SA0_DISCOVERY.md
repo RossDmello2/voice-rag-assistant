@@ -7,7 +7,7 @@ This is a local full-stack voice-to-voice RAG assistant. FastAPI is constructed 
 ## Tool Inventory
 | Tool | Status | Path |
 | --- | --- | --- |
-| rg | available | C:\Users\rossd\AppData\Local\OpenAI\Codex\bin\ada252862d154cdd\rg.EXE |
+| rg | available | <local-rg-path> |
 | grep | missing |  |
 | find | available (Windows find, not POSIX find) | c:\windows\system32\find.EXE |
 | cat | missing |  |
@@ -15,13 +15,13 @@ This is a local full-stack voice-to-voice RAG assistant. FastAPI is constructed 
 | tail | missing |  |
 | wc | missing |  |
 | jq | missing |  |
-| python3 | available | C:\Users\rossd\AppData\Local\Microsoft\WindowsApps\python3.EXE |
+| python3 | available | <local-python-launcher-path> |
 | python | available | c:\program files\python312\python.EXE |
-| node | available | C:\Program Files\Volta\node.EXE |
+| node | available | <local-node-path> |
 | git | available | c:\program files\git\cmd\git.EXE |
 | pip | available | c:\program files\python312\scripts\pip.EXE |
 | pip3 | available | c:\program files\python312\scripts\pip3.EXE |
-| npm | available | C:\Program Files\Volta\npm.EXE |
+| npm | available | <local-npm-path> |
 
 ## MCP / Plugin Contributions
 | Tool | Contribution |

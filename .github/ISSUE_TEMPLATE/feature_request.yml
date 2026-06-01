@@ -1,0 +1,62 @@
+name: Feature request
+description: Suggest a focused improvement or new capability.
+title: "[FEAT] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for proposed changes that fit the current FastAPI, vanilla JavaScript, LangGraph, Qdrant, Ollama, Groq, Kokoro, and SQLite architecture.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user need or contributor pain does this solve?
+      placeholder: It is currently hard to...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the smallest useful version of the feature.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Frontend UI
+        - Auth
+        - Chat/RAG
+        - Document ingestion
+        - Collections
+        - Speech-to-text
+        - Text-to-speech
+        - Deployment/Docker
+        - Documentation
+        - Tests/CI
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches did you consider?
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture notes
+      description: Which files or boundaries might this touch? See docs/features/README.md before proposing large feature work.
+      placeholder: This likely affects...
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I checked the README, docs/README.md, and docs/features/README.md for existing guidance.
+          required: true
+        - label: I am not requesting a framework migration or core architecture rewrite as part of a small feature.
+          required: true

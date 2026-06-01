@@ -1,6 +1,6 @@
 {
-  "root": "C:\\Users\\rossd\\OneDrive\\Desktop\\logic\\voice_agent",
-  "output_dir": "C:\\Users\\rossd\\OneDrive\\Desktop\\logic\\voice_agent\\docs\\intelligence\\2026-05-28-codebase-intelligence-v3",
+  "root": "<repo-root>",
+  "output_dir": "<repo-root>\\docs\\intelligence\\2026-05-28-codebase-intelligence-v3",
   "file_count": 124,
   "read_count": 120,
   "excluded_secret_count": 1,

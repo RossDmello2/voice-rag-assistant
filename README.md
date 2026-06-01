@@ -14,6 +14,12 @@ VoiceRAG Agent is a self-hosted assistant for talking to your documents. It serv
 
 The project is local-first, but not fully offline by default: Groq-backed speech-to-text, translation, and chat use cloud APIs when those providers are enabled.
 
+More real UI views:
+
+| Document panel | Chat workflow | Mobile layout |
+| --- | --- | --- |
+| ![VoiceRAG Agent document upload panel](docs/assets/screenshots/auth-documents.png) | ![VoiceRAG Agent chat workflow with a sanitized demo response](docs/assets/screenshots/main-workflow.png) | ![VoiceRAG Agent mobile viewport](docs/assets/screenshots/mobile.png) |
+
 ## Table of Contents
 
 - [What It Does](#what-it-does)
@@ -69,7 +75,7 @@ Feature ownership and extension guidance live in [docs/features/README.md](docs/
 ### Prerequisites
 
 - Python 3.10 or newer; Python 3.11 is recommended.
-- Node.js for `node --check` and Playwright tooling.
+- Node.js for `node --check` and Playwright browser-test tooling.
 - Qdrant running on port `6333` for document search.
 - Ollama running on port `11434` with `mxbai-embed-large:latest` for embeddings.
 - A Groq API key if using Groq chat, translation, or STT.
@@ -83,6 +89,8 @@ cd voice-rag-agent
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r voice_agent_backend/requirements.txt
+pip install -r requirements-dev.txt  # for tests and Playwright browser checks
+python -m playwright install chromium
 cp .env.example voice_agent_backend/.env
 # Edit voice_agent_backend/.env before starting the app.
 ```
@@ -204,7 +212,7 @@ Non-trivial request models are defined in [voice_agent_backend/app/models/schema
 
 See [docs/deployment.md](docs/deployment.md) for Docker, provider, and local artifact notes.
 
-For public exposure, configure production secrets, restrict CORS/hosts, keep provider keys server-side, and consider broader auth for cost-bearing chat/STT/TTS endpoints.
+For public exposure, configure production secrets, restrict CORS, keep provider keys server-side, and consider broader auth for cost-bearing chat/STT/TTS endpoints. `ALLOWED_HOSTS` is currently configuration only; add host enforcement middleware before relying on it as a deployment control.
 
 ## Contributing
 
@@ -213,6 +221,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, architecture bound
 ## Security
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting. Do not report private keys, `.env` contents, model artifacts, or SQLite data in public issues.
+
+Current open security follow-ups are documented in [docs/operations/VERIFICATION_MATRIX.md](docs/operations/VERIFICATION_MATRIX.md). CodeQL is enabled and passing, but unresolved code-scanning alerts should be addressed before treating a hosted public deployment as hardened.
+
+## Current Status
+
+**READY WITH GAPS.** The repository is public, documented, tested, and remotely verified, but provider-level smoke tests need local Qdrant/Ollama/Kokoro artifacts and Groq credentials, GitHub social preview upload is a manual repository-settings step, and CodeQL has open alerts that require core-code fixes outside this docs-only pass.
 
 ## License
 

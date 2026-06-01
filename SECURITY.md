@@ -11,16 +11,18 @@
 
 Please do not report security vulnerabilities through public GitHub issues.
 
-Email **rossdmello869@gmail.com** with:
+Use GitHub private vulnerability reporting:
+
+https://github.com/RossDmello2/voice-rag-agent/security/advisories/new
+
+Include:
 
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
 - Your suggested fix, if any
 
-You will receive a response within 48 hours acknowledging receipt.
-
-We will work with you to confirm the issue, develop a fix, release a patched version, and credit your discovery unless you prefer to remain anonymous.
+The maintainer will review the private advisory, confirm impact where possible, and coordinate a fix before public disclosure. Response timing depends on maintainer availability.
 
 ## Security Best Practices for Deployment
 

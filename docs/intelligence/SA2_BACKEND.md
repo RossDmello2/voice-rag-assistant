@@ -1,5 +1,7 @@
 # SA-2: Backend Report
 
+> Historical snapshot: this file is preserved from an earlier audit and may contain superseded route/auth findings. Use `docs/architecture/README.md`, `docs/features/README.md`, and `docs/operations/VERIFICATION_MATRIX.md` for current contribution planning.
+
 ## Summary
 The live FastAPI app includes `chat`, `ingest`, `stt`, `collections`, `health`, `models`, and `tts` routers at `voice_agent_backend/app/main.py:102` through `voice_agent_backend/app/main.py:108`. `auth` is imported at `voice_agent_backend/app/main.py:15`, and auth routes exist at `voice_agent_backend/app/api/routes/auth.py:20` and `voice_agent_backend/app/api/routes/auth.py:39`, but the auth router is not included.
 

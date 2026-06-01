@@ -4,11 +4,11 @@ Thank you for your interest in contributing.
 
 ## How to Report a Bug
 
-Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md). Include what you expected, what happened, exact steps to reproduce, and your environment.
+Use the bug report issue form. Include what you expected, what happened, exact steps to reproduce, and your environment.
 
 ## How to Request a Feature
 
-Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md). Describe the problem you are solving, not only the requested implementation.
+Use the feature request issue form. Describe the problem you are solving, not only the requested implementation.
 
 ## Architecture and Feature Workflow
 
@@ -91,4 +91,4 @@ python -m pytest tests/frontend/test_frontend.py -q
 
 ## Questions
 
-Open an issue tagged `question`, or email rossdmello869@gmail.com.
+Open a GitHub issue tagged `question`. Do not include private document text, credentials, `.env` values, or local database contents in public issues.

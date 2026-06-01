@@ -1,5 +1,7 @@
 # SA-6: Security and Quality Report
 
+> Historical snapshot: this file is preserved from an earlier audit and may contain superseded auth/security findings. Use `docs/operations/VERIFICATION_MATRIX.md`, `SECURITY.md`, and the live source for current security posture.
+
 ## Authentication/Authorization Audit
 | Endpoint | Auth Required | Rate Limit | Risk |
 | --- | --- | --- | --- |

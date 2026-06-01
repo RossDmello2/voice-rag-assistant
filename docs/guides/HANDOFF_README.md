@@ -1,274 +1,149 @@
-# Voice Agent — Production Setup Guide
-## (Handoff Document — readable by humans AND local LLMs)
+# VoiceRAG Agent Handoff Guide
 
----
+This guide is a short operational handoff for maintainers and local coding agents. It reflects the current repository layout and should be read alongside:
 
-## WHAT THIS IS
+- [../../README.md](../../README.md)
+- [../README.md](../README.md)
+- [../architecture/README.md](../architecture/README.md)
+- [../features/README.md](../features/README.md)
 
-A full-stack voice agent web application with:
-- **Frontend**: Vanilla JavaScript, served by FastAPI at http://localhost:8000
-- **Backend**: Python 3.10+ / FastAPI (async)
-- **Database**: SQLite (user auth only) — auto-created on first run
-- **Vector DB**: Qdrant (required — run separately)
-- **LLM**: Groq API (cloud) or Ollama (local)
-- **Embeddings**: Ollama (local)
-- **STT**: Groq Whisper API
-- **TTS**: Browser Web Speech API (built-in, no setup needed)
+## What This Project Is
 
----
+VoiceRAG Agent is a local-first voice-to-voice RAG assistant. FastAPI serves a vanilla JavaScript frontend, handles API routes, stores local users in SQLite, sends document vectors to Qdrant, uses Ollama for embeddings and optional chat, uses Groq for cloud chat/STT/translation when configured, and uses Kokoro ONNX for local TTS when model artifacts are present.
 
-## QUICK START (5 steps)
+It is self-hosted, but not fully offline by default because Groq-backed features call cloud APIs when enabled.
 
-### Step 1 — Prerequisites
-Install these before anything else:
+## Runtime Roots
+
+```text
+voice-rag-agent/
+|-- README.md
+|-- .env.example
+|-- docs/
+`-- voice_agent_backend/
+    |-- app/          FastAPI backend
+    |-- frontend/     Vanilla JavaScript UI served by FastAPI
+    |-- data/         Local model and SQLite paths; runtime artifacts are ignored
+    |-- scripts/      Checks and manual smoke scripts
+    `-- tests/        Backend and frontend tests
 ```
-Python 3.10 or higher
-pip (Python package manager)
-Qdrant vector database (see Step 2)
+
+The app reads runtime configuration from `voice_agent_backend/.env`. Do not commit that file.
+
+## Local Setup
+
+```bash
+git clone https://github.com/RossDmello2/voice-rag-agent.git
+cd voice-rag-agent
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r voice_agent_backend/requirements.txt
+pip install -r requirements-dev.txt
+python -m playwright install chromium
+cp .env.example voice_agent_backend/.env
 ```
 
-### Step 2 — Start Qdrant
-Qdrant is REQUIRED for document storage. Run it with Docker:
+Edit `voice_agent_backend/.env` before starting the app.
+
+Minimum local dependencies for document RAG:
+
+- Qdrant at `http://localhost:6333`
+- Ollama at `http://localhost:11434`
+- Ollama embedding model `mxbai-embed-large:latest`
+
+Groq-backed chat/STT/translation requires `GROQ_API_KEY`. Kokoro native TTS requires local model artifacts:
+
+- `voice_agent_backend/data/models/kokoro-v1.0.onnx`
+- `voice_agent_backend/data/models/voices-v1.0.bin`
+
+## Run Commands
+
+Start Qdrant:
+
 ```bash
 docker run -p 6333:6333 qdrant/qdrant
 ```
-Or download from https://qdrant.tech/documentation/quick-start/
 
-### Step 3 — Configure environment
-Copy the root `.env.example` file to `voice_agent_backend/.env`, then set your Groq API key:
-```
-GROQ_API_KEY=
-```
-Get a free Groq key at https://console.groq.com
+Start the app:
 
-### Step 4 — Install Python dependencies
 ```bash
 cd voice_agent_backend
-pip install -r requirements.txt
-```
-
-### Step 5 — Start the server
-**Windows:**
-```
-Double-click start_server.bat
-```
-Or from terminal:
-```bash
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-**Linux / macOS:**
+Open `http://localhost:8000`.
+
+## API Boundary
+
+Public/local-first endpoints:
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /chat`
+- `POST /chat/predict`
+- `POST /chat/backchannel/{session_id}`
+- `POST /chat/stream`
+- `POST /chat/interrupt/{thread_id}`
+- `POST /stt`
+- `POST /tts/generate`
+- `GET /collections`
+- `GET /collections/{collection_name}/documents`
+- `GET /health`
+- `GET /models`
+
+Bearer-token protected write endpoints:
+
+- `POST /ingest`
+- `POST /collections`
+- `DELETE /collections/{collection_name}`
+- `DELETE /collections/{collection_name}/documents/{filename}`
+
+Do not describe chat, read-only collection listing, or health/model endpoints as protected unless the source changes.
+
+## Configuration Notes
+
+Important variables:
+
+| Variable | Purpose |
+| --- | --- |
+| `APP_ENV` | Runtime mode; production rejects fallback secrets. |
+| `SECRET_KEY` | JWT signing key. Set a strong value outside local tests. |
+| `DATABASE_URL` | Optional SQLAlchemy URL; defaults to local SQLite. |
+| `GROQ_API_KEY` | Groq cloud chat/STT/translation key. |
+| `OLLAMA_BASE` | Ollama API base URL. |
+| `QDRANT_BASE` | Qdrant API base URL. |
+| `KOKORO_MODE` | `native`, `docker`, or `disabled`. |
+| `KOKORO_MODEL_PATH` | Kokoro ONNX path relative to `voice_agent_backend`. |
+| `KOKORO_VOICES_PATH` | Kokoro voice artifact path relative to `voice_agent_backend`. |
+
+`ALLOWED_HOSTS` exists in configuration but is not enforced by middleware in the current source. Do not rely on it as a deployment security control until host enforcement is implemented.
+
+## Verification Commands
+
 ```bash
-bash start_server.sh
+git check-ignore voice_agent_backend/.env voice_agent_backend/data/models/kokoro-v1.0.onnx voice_agent_backend/data/sqlite/voice_agent.db
+node --check voice_agent_backend/frontend/script.js
+cd voice_agent_backend
+python -m compileall app scripts tests
+python -m pytest tests/backend tests/frontend -q
+python -m pytest --collect-only -q
+python scripts/checks/import_smoke.py
+python -c "from app.main import app; print(app.title)"
 ```
 
-### Step 6 — Open the app
-Go to: http://localhost:8000
+Use browser smoke testing after frontend changes.
 
-You will see a **Sign In** screen. Click **Register** to create your account (stored locally in SQLite). Then sign in.
+## Security Notes
 
----
+- Do not read, print, or commit `voice_agent_backend/.env`.
+- Do not commit SQLite DBs or Kokoro model artifacts.
+- Keep provider keys server-side only.
+- Assistant Markdown must pass through `renderMarkdownSafe()` before DOM insertion.
+- Add broader auth before exposing cost-bearing chat/STT/TTS endpoints publicly.
+- Report vulnerabilities through GitHub private vulnerability reporting, not public issues.
 
-## ARCHITECTURE OVERVIEW
+## Known Gaps
 
-```
-Browser (http://localhost:8000)
-    ↓  GET /           → FastAPI serves index.html (frontend)
-    ↓  POST /auth/login → FastAPI verifies user, returns JWT token
-    ↓  POST /chat      → FastAPI → Groq LLM (streaming SSE)
-    ↓  POST /ingest    → FastAPI → Qdrant (document upload)
-    ↓  POST /stt       → FastAPI → Groq Whisper (audio)
-    ↓  GET  /health    → FastAPI → checks Qdrant + Groq + Ollama
-```
-
-Current repository layout note: the public `.env.example` now lives at the repository root. Runtime-local artifacts live under `voice_agent_backend/data/`: Kokoro files are in `data/models/`, and SQLite is in `data/sqlite/`. Frontend tests live in `voice_agent_backend/tests/frontend/`, developer checks live in `voice_agent_backend/scripts/checks/`, and manual smoke scripts live in `voice_agent_backend/scripts/manual_tests/`.
-
----
-
-## FILE STRUCTURE
-
-```
-voice_agent_backend/
-├── .env                    ← YOUR CONFIG (edit GROQ_API_KEY here)
-├── .env.example            ← Template for .env
-├── requirements.txt        ← Python dependencies
-├── start_server.bat        ← Windows startup script
-├── start_server.sh         ← Linux/macOS startup script
-├── app/
-│   ├── main.py             ← FastAPI app, middleware, routes
-│   ├── core/
-│   │   ├── config.py       ← Settings (reads .env)
-│   │   ├── auth.py         ← JWT token logic
-│   │   ├── database.py     ← SQLite async engine
-│   │   ├── intent.py       ← Intent classifier (regex + LLM)
-│   │   ├── langchain_rag.py← RAG pipeline (embed, search, rerank)
-│   │   ├── memory.py       ← In-memory session store
-│   │   ├── voice_graph.py  ← LangGraph pipeline (optional)
-│   │   └── nodes/          ← LangGraph node functions
-│   ├── api/routes/
-│   │   ├── auth.py         ← POST /auth/login, /auth/register
-│   │   ├── chat.py         ← POST /chat (SSE streaming)
-│   │   ├── collections.py  ← GET/POST/DELETE /collections
-│   │   ├── health.py       ← GET /health
-│   │   ├── ingest.py       ← POST /ingest (file upload)
-│   │   ├── models.py       ← GET /models
-│   │   └── stt.py          ← POST /stt (audio)
-│   ├── models/
-│   │   ├── user.py         ← SQLAlchemy User model
-│   │   └── schemas.py      ← Pydantic request/response models
-│   └── services/
-│       ├── groq_service.py ← Groq API (chat + STT)
-│       ├── ollama_service.py← Ollama (embeddings + chat)
-│       ├── qdrant_service.py← Qdrant vector DB operations
-│       ├── llm_router.py   ← Routes to Groq or Ollama
-│       └── speech_service.py← Kokoro TTS (optional)
-└── frontend/
-    ├── index.html          ← Single-page app HTML
-    ├── style.css           ← All styles
-    └── script.js           ← All frontend JavaScript
-```
-
----
-
-## CONFIGURATION (.env keys)
-
-| Key | Default | Description |
-|-----|---------|-------------|
-| GROQ_API_KEY | (empty) | **REQUIRED** — Get from console.groq.com |
-| GROQ_BASE | https://api.groq.com/openai/v1 | Groq API base URL |
-| CHAT_MODEL | llama-3.1-8b-instant | Groq model for chat |
-| CHAT_PROVIDER | groq | "groq" or "ollama" |
-| OLLAMA_BASE | http://localhost:11434 | Ollama URL (only if using Ollama) |
-| EMBED_MODEL | mxbai-embed-large:latest | Ollama embedding model |
-| QDRANT_BASE | http://localhost:6333 | Qdrant URL |
-| SECRET_KEY | (set in .env) | JWT signing key — change this! |
-| PORT | 8000 | Server port |
-| KOKORO_MODE | disabled | TTS: "disabled", "native", or "docker" |
-| KOKORO_MODEL_PATH | data/models/kokoro-v1.0.onnx | Kokoro ONNX model file |
-| KOKORO_VOICES_PATH | data/models/voices-v1.0.bin | Kokoro voice artifact file |
-
----
-
-## BUGS FIXED IN THIS VERSION
-
-1. **[CRITICAL] Frontend had zero auth** — No login/register UI, no token storage, all protected API endpoints returned 401. Fixed by:
-   - Adding full login/register modal in `index.html`
-   - Adding `AUTH` module in `script.js` (token in localStorage)
-   - Adding `window.fetch` interceptor that auto-injects `Authorization: Bearer <token>` on every same-origin request
-   - `init()` now shows auth modal if not logged in
-
-2. **[CRITICAL] `ingest.py` dead temp file code** — File was saved to disk but `ingest_document()` re-read from the UploadFile object. Removed dead code; now passes `file_content` bytes directly.
-
-3. **[CRITICAL] `qdrant_service.py` delete_collection bad API** — Called Qdrant points/delete with invalid filter format before collection delete. Fixed to directly call `DELETE /collections/{name}` which removes everything.
-
-4. **[HIGH] CORS missing DELETE/PUT methods** — Frontend calls DELETE to remove documents/collections, POST to create. CORS now allows all needed methods.
-
-5. **[HIGH] `requirements.txt` included `kokoro`** — Kokoro TTS library is hard to install and only needed if `KOKORO_MODE=native`. Made optional (commented out). `KOKORO_MODE=disabled` by default.
-
-6. **[HIGH] `start_server.bat` hardcoded personal path** — Changed to use `%~dp0` (directory of the script). Added Linux `start_server.sh`.
-
-7. **[MEDIUM] HSTS header breaks `http://localhost`** — Removed Strict-Transport-Security header (only valid for HTTPS production).
-
-8. **[MEDIUM] VoicePipeline `result.data`** — `ReadableStreamReadResult` has `.value`, not `.data`. Fixed to `result.value`.
-
-9. **[LOW] `speech_service.py` numpy top-level import** — Made safe with try/except so import failure doesn't crash the whole server.
-
----
-
-## HOW AUTH WORKS
-
-1. User opens `http://localhost:8000` → sees login modal
-2. User registers (first time) or logs in
-3. Backend creates/validates user in SQLite, returns JWT token
-4. Frontend stores token in `localStorage` as `ssa_auth_token`
-5. `window.fetch` is patched — all API calls auto-include `Authorization: Bearer <token>`
-6. On page reload, token is loaded from localStorage → user stays logged in
-7. Logout clears the token from localStorage and shows the modal again
-
----
-
-## HOW RAG (DOCUMENT Q&A) WORKS
-
-1. User uploads PDF/DOCX/TXT/CSV via Documents panel
-2. Backend (`/ingest`):
-   - Extracts text from file
-   - Chunks text with section/heading awareness
-   - Sends each chunk to Ollama for embedding
-   - Stores vectors + metadata in Qdrant
-3. User asks a question
-4. Backend (`/chat`):
-   - Classifies intent (document query vs general chat)
-   - Generates multiple query variants
-   - Embeds queries via Ollama
-   - Searches Qdrant for similar chunks
-   - Re-ranks results using BM25 + vector hybrid scoring
-   - Passes top chunks to Groq LLM as context
-   - Streams response back via SSE
-
----
-
-## SERVICES STATUS CHECK
-
-When you open the app, the status bar shows:
-- **Ollama**: Green = embedding models ready. Red = Ollama not running (OK if using Groq for chat)
-- **Qdrant**: Green = vector DB ready. Red = Qdrant not running (documents won't work)
-- **Groq**: Green = API key valid. Red = invalid key or no internet
-
----
-
-## COMMON ISSUES
-
-**"Backend connection failed"**
-→ Server isn't running. Run `start_server.bat` or `python -m uvicorn app.main:app --port 8000`
-
-**Groq shows red / chat doesn't work**
-→ Edit `.env` and set a real `GROQ_API_KEY`
-
-**Documents can't be uploaded / "Ingest failed"**
-→ Qdrant isn't running. Start it: `docker run -p 6333:6333 qdrant/qdrant`
-
-**"All chunks failed to embed"**
-→ Ollama isn't running or embedding model not pulled.
-→ Run: `ollama pull mxbai-embed-large`
-
-**Login modal keeps showing after login**
-→ Check browser console for errors. May be CORS or server not running.
-
-**Page loads but is blank**
-→ Check browser console. CDN scripts (marked.js) need internet access.
-
----
-
-## RUNNING WITHOUT OLLAMA (Groq-only mode)
-
-If you don't want to run Ollama locally:
-1. You won't be able to upload documents (embedding requires Ollama)
-2. Chat will still work for general conversation
-3. Set `CHAT_PROVIDER=groq` in `.env` (already default)
-
----
-
-## FOR LOCAL LLM (HANDOFF CONTEXT)
-
-If you are a local LLM helping to debug this project, here are the key facts:
-
-- **Entry point**: `app/main.py` → FastAPI application
-- **Auth**: JWT tokens, created in `app/core/auth.py`, validated via `Depends(get_current_user)` on protected routes
-- **Protected routes**: `/chat`, `/chat/stream`, `/chat/interrupt/*`, `/ingest`, `GET /collections`, `POST /collections`, `DELETE /collections/*`, `DELETE /collections/*/documents/*`
-- **Public routes**: `/health`, `/models`, `/stt`, `/auth/login`, `/auth/register`, `GET /collections/*/documents`
-- **Frontend token**: Stored in `localStorage.ssa_auth_token`, injected into all fetch() calls via patched `window.fetch`
-- **LLM streaming**: SSE (Server-Sent Events) — `data: {"token": "..."}\n\n` format, ends with `data: [DONE]\n\n`
-- **Vector search**: Qdrant at `http://localhost:6333` — collection name defaults to `agent_knowledge`
-- **Embedding**: Ollama `/api/embed` endpoint — model `mxbai-embed-large:latest` (1024 dimensions)
-- **Session memory**: In-memory Python dict in `app/core/memory.py` (resets on server restart)
-- **Database**: SQLite file `data/sqlite/voice_agent.db` under `voice_agent_backend` (auto-created if missing)
-
----
-
-## PORTS USED
-
-| Port | Service |
-|------|---------|
-| 8000 | Voice Agent (FastAPI — this app) |
-| 6333 | Qdrant vector DB |
-| 11434 | Ollama (local LLM/embeddings) |
+- Full provider smoke requires Qdrant, Ollama, Kokoro artifacts, and Groq credentials.
+- CodeQL is enabled and passing, but open code-scanning alerts remain until core-code fixes are approved.
+- The GitHub social preview source image is committed, but uploading it to repository settings is an owner-side manual step.

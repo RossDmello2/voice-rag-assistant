@@ -10,9 +10,9 @@
 - [x] SA-7: Synthesis + Master Brief
 
 ## Bootstrap Notes
-- Project root: `C:\Users\rossd\OneDrive\Desktop\logic\voice_agent`
-- Runtime root: `C:\Users\rossd\OneDrive\Desktop\logic\voice_agent\voice_agent_backend`
-- Output directory: `C:\Users\rossd\OneDrive\Desktop\logic\voice_agent\docs\intelligence`
+- Project root: `<repo-root>`
+- Runtime root: `<repo-root>\voice_agent_backend`
+- Output directory: `<repo-root>\docs\intelligence`
 - `.env` exists at `voice_agent_backend/.env`; contents intentionally not read or copied.
 - Git metadata unavailable; not a repository at project or backend root.
 - Generated/cache paths and output docs were excluded from source analysis.
