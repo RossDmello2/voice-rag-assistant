@@ -120,6 +120,15 @@ def _intercept_401(route: Route):
     )
 
 
+def _intercept_auth_success(route: Route):
+    """Mock auth endpoints with a bearer token."""
+    route.fulfill(
+        status=200,
+        content_type="application/json",
+        body=json.dumps({"access_token": "test-token", "token_type": "bearer"}),
+    )
+
+
 def _mock_all_api(page: Page):
     """Intercept all API calls used on page load."""
     page.route("**/health",      _intercept_health)
@@ -140,7 +149,7 @@ class TestPageLoad:
             page = browser.new_page()
             _mock_all_api(page)
             page.goto(BASE_URL, wait_until="domcontentloaded")
-            assert "Speech-to-Speech AI Agent" in page.title()
+            assert "VoiceRAG Agent" in page.title()
             browser.close()
 
     def test_orb_canvas_present(self):
@@ -424,4 +433,81 @@ class TestAccessibility:
             page.goto(BASE_URL, wait_until="domcontentloaded")
             lang = page.locator("html").get_attribute("lang")
             assert lang is not None and len(lang) >= 2, "html[lang] missing or empty"
+            browser.close()
+
+
+class TestAuthAndSecurity:
+    """Auth and Markdown safety checks for protected frontend writes."""
+
+    def test_auth_modal_can_open(self):
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            _mock_all_api(page)
+            page.goto(BASE_URL, wait_until="domcontentloaded")
+            page.evaluate("showAuthModal()")
+            expect(page.locator("#auth-overlay")).to_be_visible()
+            expect(page.locator("#auth-email")).to_be_visible()
+            browser.close()
+
+    def test_login_stores_token_and_hides_modal(self):
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            _mock_all_api(page)
+            page.route("**/auth/login", _intercept_auth_success)
+            page.goto(BASE_URL, wait_until="domcontentloaded")
+            page.evaluate("showAuthModal()")
+            page.locator("#auth-email").fill("tester@example.com")
+            page.locator("#auth-password").fill("strong-password")
+            page.locator("#auth-submit").click()
+            page.wait_for_function("localStorage.getItem('ssa_auth_token') === 'test-token'")
+            assert "hidden" in (page.locator("#auth-overlay").get_attribute("class") or "")
+            browser.close()
+
+    def test_protected_collection_create_sends_bearer_token(self):
+        seen = {}
+
+        def route_collections(route: Route):
+            if route.request.method == "POST":
+                seen["authorization"] = route.request.headers.get("authorization")
+                route.fulfill(
+                    status=200,
+                    content_type="application/json",
+                    body=json.dumps({"name": "secure_collection", "status": "created"}),
+                )
+            else:
+                _intercept_collections(route)
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            page.route("**/health", _intercept_health)
+            page.route("**/models", _intercept_models)
+            page.route("**/collections", route_collections)
+            page.goto(BASE_URL, wait_until="domcontentloaded")
+            page.evaluate("localStorage.setItem('ssa_auth_token', 'test-token')")
+            page.evaluate(
+                """
+                document.getElementById('new-collection-input').value = 'secure_collection';
+                confirmNewCollection();
+                """
+            )
+            page.wait_for_timeout(300)
+            assert seen["authorization"] == "Bearer test-token"
+            browser.close()
+
+    def test_agent_markdown_is_sanitized(self):
+        payload = '<img src=x onerror="window.__xss = true">safe<script>window.__xss = true</script>'
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            _mock_all_api(page)
+            page.goto(BASE_URL, wait_until="domcontentloaded")
+            page.evaluate("(payload) => addMessage('agent', payload)", payload)
+            page.wait_for_timeout(200)
+            assert page.evaluate("window.__xss === true") is False
+            html = page.locator(".message.agent .msg-content").last.inner_html()
+            assert "<script" not in html.lower()
+            assert "onerror" not in html.lower()
             browser.close()

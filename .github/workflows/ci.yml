@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -49,16 +52,22 @@ jobs:
             -not -path "*/.venv/*" \
             -not -path "*/venv/*")
 
-      - name: Run frontend tests
+      - name: Run backend and frontend tests
         working-directory: voice_agent_backend
-        run: python -m pytest tests/frontend -q
+        run: python -m pytest tests/backend tests/frontend -q
 
       - name: Collect pytest suite
         working-directory: voice_agent_backend
         run: python -m pytest --collect-only -q
 
+      - name: Import smoke
+        working-directory: voice_agent_backend
+        run: python scripts/checks/import_smoke.py
+
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

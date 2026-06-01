@@ -1,7 +1,7 @@
 # Productionization Plan
 
 **Date:** 2026-05-17  
-**Project:** voice-agent  
+**Project:** VoiceRAG Agent
 **Production depth:** strict
 
 ## Product Shape

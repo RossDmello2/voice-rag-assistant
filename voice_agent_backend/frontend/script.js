@@ -54,6 +54,145 @@ const CONFIG = {
 
 
 
+function ApiError(message, status) {
+    this.name = 'ApiError';
+    this.message = message || 'Request failed';
+    this.status = status || 0;
+}
+ApiError.prototype = Object.create(Error.prototype);
+ApiError.prototype.constructor = ApiError;
+
+var AUTH = {
+    tokenKey: 'auth_token',
+    emailKey: 'auth_email',
+    mode: 'login',
+    getToken: function () {
+        try { return localStorage.getItem(CONFIG.STORAGE_PREFIX + this.tokenKey) || ''; } catch (e) { return ''; }
+    },
+    getEmail: function () {
+        try { return localStorage.getItem(CONFIG.STORAGE_PREFIX + this.emailKey) || ''; } catch (e) { return ''; }
+    },
+    set: function (token, email) {
+        try {
+            localStorage.setItem(CONFIG.STORAGE_PREFIX + this.tokenKey, token);
+            if (email) localStorage.setItem(CONFIG.STORAGE_PREFIX + this.emailKey, email);
+        } catch (e) { console.warn('Auth storage failed:', e); }
+        updateAuthUi();
+    },
+    clear: function () {
+        try {
+            localStorage.removeItem(CONFIG.STORAGE_PREFIX + this.tokenKey);
+            localStorage.removeItem(CONFIG.STORAGE_PREFIX + this.emailKey);
+        } catch (e) { console.warn('Auth clear failed:', e); }
+        updateAuthUi();
+    },
+    authorizationHeader: function () {
+        var token = this.getToken();
+        return token ? { Authorization: 'Bearer ' + token } : {};
+    }
+};
+
+function isAuthError(err) {
+    return !!err && (err.status === 401 || err.message === 'Missing authentication token' || /401|unauthorized/i.test(err.message || ''));
+}
+
+function parseJsonError(resp) {
+    return resp.json().catch(function () { return {}; }).then(function (body) {
+        throw new ApiError(body.detail || ('HTTP ' + resp.status), resp.status);
+    });
+}
+
+function authFetch(url, options) {
+    options = options || {};
+    var token = AUTH.getToken();
+    if (!token) {
+        showAuthModal();
+        setAuthError('Please sign in to continue.');
+        return Promise.reject(new ApiError('Missing authentication token', 401));
+    }
+    var headers = Object.assign({}, options.headers || {}, AUTH.authorizationHeader());
+    return fetch(url, Object.assign({}, options, { headers: headers })).then(function (resp) {
+        if (resp.status === 401) return parseJsonError(resp);
+        return resp;
+    });
+}
+
+function setAuthError(message) {
+    if (!DOM.authError) return;
+    DOM.authError.textContent = message || '';
+    DOM.authError.classList.toggle('hidden', !message);
+}
+
+function setAuthMode(mode) {
+    AUTH.mode = mode === 'register' ? 'register' : 'login';
+    if (DOM.authTitle) DOM.authTitle.textContent = AUTH.mode === 'register' ? 'Create account' : 'Sign in';
+    if (DOM.authSubtitle) DOM.authSubtitle.textContent = AUTH.mode === 'register' ? 'Create a local account for document writes.' : 'Sign in to upload and manage documents.';
+    if (DOM.authSubmit) DOM.authSubmit.textContent = AUTH.mode === 'register' ? 'Create account' : 'Sign in';
+    if (DOM.authToggle) DOM.authToggle.textContent = AUTH.mode === 'register' ? 'Use existing account' : 'Create account';
+    if (DOM.authPassword) DOM.authPassword.autocomplete = AUTH.mode === 'register' ? 'new-password' : 'current-password';
+    setAuthError('');
+}
+
+function showAuthModal() {
+    if (!DOM.authOverlay) return;
+    DOM.authOverlay.classList.remove('hidden');
+    if (DOM.authEmail) setTimeout(function () { DOM.authEmail.focus(); }, 0);
+}
+
+function hideAuthModal() {
+    if (DOM.authOverlay) DOM.authOverlay.classList.add('hidden');
+    setAuthError('');
+}
+
+function updateAuthUi() {
+    var signedIn = !!AUTH.getToken();
+    if (DOM.logoutBtn) {
+        DOM.logoutBtn.classList.toggle('hidden', !signedIn);
+        DOM.logoutBtn.textContent = signedIn ? 'Sign out' : 'Sign in';
+    }
+    if (signedIn) hideAuthModal();
+}
+
+function submitAuthForm(event) {
+    event.preventDefault();
+    var email = DOM.authEmail ? DOM.authEmail.value.trim() : '';
+    var password = DOM.authPassword ? DOM.authPassword.value : '';
+    if (!email || !password) { setAuthError('Email and password are required.'); return; }
+    if (DOM.authSubmit) DOM.authSubmit.disabled = true;
+    setAuthError('');
+
+    var request;
+    if (AUTH.mode === 'register') {
+        request = fetch('/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password })
+        });
+    } else {
+        var form = new URLSearchParams();
+        form.set('username', email);
+        form.set('password', password);
+        request = fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: form.toString()
+        });
+    }
+
+    request.then(function (resp) {
+        if (!resp.ok) return parseJsonError(resp);
+        return resp.json();
+    }).then(function (data) {
+        AUTH.set(data.access_token, email);
+        toast('Signed in.', 'success');
+        if (DOM.authPassword) DOM.authPassword.value = '';
+    }).catch(function (err) {
+        setAuthError(err.message || 'Authentication failed.');
+    }).finally(function () {
+        if (DOM.authSubmit) DOM.authSubmit.disabled = false;
+    });
+}
+
 var LANGUAGE_META = {
     'en': { name: 'English',    sttBcp47: 'en-US', ttsLang: 'en-US', whisperCode: 'en' },
     'es': { name: 'Spanish',    sttBcp47: 'es-ES', ttsLang: 'es-ES', whisperCode: 'es' },
@@ -519,6 +658,16 @@ function cacheDom() {
     DOM.messageList = document.getElementById('message-list');
     DOM.inputArea = document.getElementById('input-area');
     DOM.controlBar = document.getElementById('control-bar');
+    DOM.logoutBtn = document.getElementById('logout-btn');
+    DOM.authOverlay = document.getElementById('auth-overlay');
+    DOM.authForm = document.getElementById('auth-form');
+    DOM.authTitle = document.getElementById('auth-title');
+    DOM.authSubtitle = document.getElementById('auth-subtitle');
+    DOM.authError = document.getElementById('auth-error');
+    DOM.authEmail = document.getElementById('auth-email');
+    DOM.authPassword = document.getElementById('auth-password');
+    DOM.authSubmit = document.getElementById('auth-submit');
+    DOM.authToggle = document.getElementById('auth-toggle');
     DOM.textInput = document.getElementById('text-input');
     DOM.sendBtn = document.getElementById('send-btn');
     DOM.micBtn = document.getElementById('mic-btn');
@@ -1193,7 +1342,15 @@ function appendSourcesTag(id, sources) {
 }
 
 function renderMarkdownSafe(text) {
-    if (typeof marked !== 'undefined' && marked.parse) { try { return marked.parse(text); } catch (e) { } }
+    if (typeof marked !== 'undefined' && marked.parse) {
+        try {
+            var html = marked.parse(text);
+            if (typeof DOMPurify !== 'undefined' && DOMPurify.sanitize) {
+                return DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+            }
+            return escapeHtml(text).replace(/\n/g, '<br>');
+        } catch (e) { }
+    }
     return escapeHtml(text).replace(/\n/g, '<br>');
 }
 
@@ -1770,6 +1927,7 @@ function startIngestion(file) {
     var lower = file.name.toLowerCase();
     var valid = validExts.some(function (ext) { return lower.endsWith(ext); });
     if (!valid) { toast('Unsupported file type. Use PDF, DOCX, TXT, or CSV.', 'error'); return; }
+    if (!AUTH.getToken()) { showAuthModal(); setAuthError('Please sign in to upload documents.'); return; }
     if (STATE.documents.isIngesting) { toast('Already processing a file. Please wait.', 'warning'); return; }
 
     STATE.documents.isIngesting = true;
@@ -1782,7 +1940,7 @@ function startIngestion(file) {
     formData.append('collection', getActiveCollection());
     if (STATE.embeddings.activeModel) formData.append('embed_model', STATE.embeddings.activeModel);
 
-    fetch('/ingest', { method: 'POST', body: formData }).then(function (r) {
+    authFetch('/ingest', { method: 'POST', body: formData }).then(function (r) {
         if (!r.ok) return r.json().then(function (d) { throw new Error((d.detail) || 'Ingest error ' + r.status); });
         return r.json();
     }).then(function (data) {
@@ -1796,6 +1954,7 @@ function startIngestion(file) {
         speakResponse('I have processed your document and I am ready to answer questions about it.');
     }).catch(function (err) {
         showIngestionProgress(false);
+        if (isAuthError(err)) { AUTH.clear(); showAuthModal(); setAuthError('Please sign in to upload documents.'); return; }
         toast('Ingestion failed: ' + err.message, 'error');
     }).finally(function () { STATE.documents.isIngesting = false; });
 }
@@ -1820,11 +1979,14 @@ function renderDocumentList() {
 
 function deleteDocument(idx) {
     var doc = STATE.documents.ingested[idx]; if (!doc) return;
-    fetch('/collections/' + getActiveCollection() + '/documents/' + encodeURIComponent(doc.filename), { method: 'DELETE' }).then(function (r) { if (!r.ok) throw new Error('Delete failed'); return r.json(); }).then(function () {
+    authFetch('/collections/' + getActiveCollection() + '/documents/' + encodeURIComponent(doc.filename), { method: 'DELETE' }).then(function (r) { if (!r.ok) throw new Error('Delete failed'); return r.json(); }).then(function () {
         STATE.documents.ingested.splice(idx, 1);
         saveDocumentsForCollection(getActiveCollection(), STATE.documents.ingested);
         renderDocumentList(); toast(doc.filename + ' removed.', 'success');
-    }).catch(function (err) { toast('Failed to delete: ' + err.message, 'error'); });
+    }).catch(function (err) {
+        if (isAuthError(err)) { AUTH.clear(); showAuthModal(); setAuthError('Please sign in to delete documents.'); return; }
+        toast('Failed to delete: ' + err.message, 'error');
+    });
 }
 
 
@@ -2062,7 +2224,8 @@ function fetchCollectionsAndPopulate() {
 
 function ensureCollection() {
     var col = getActiveCollection();
-    return fetch('/collections', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: col }) }).then(function (r) { if (!r.ok) return r.json().then(function (d) { throw new Error(d.detail || 'Create failed'); }); return r.json(); }).then(function () { STATE.services.qdrant.collectionReady = true; }).catch(function (err) { console.warn('ensureCollection:', err.message); });
+    if (!AUTH.getToken()) { STATE.services.qdrant.collectionReady = false; return Promise.resolve(); }
+    return authFetch('/collections', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: col }) }).then(function (r) { if (!r.ok) return r.json().then(function (d) { throw new Error(d.detail || 'Create failed'); }); return r.json(); }).then(function () { STATE.services.qdrant.collectionReady = true; }).catch(function (err) { console.warn('ensureCollection:', err.message); });
 }
 
 function onCollectionChange(e) {
@@ -2082,11 +2245,14 @@ function onCollectionChange(e) {
 
 function confirmNewCollection() {
     if (!DOM.newCollectionInput) return; var name = DOM.newCollectionInput.value.trim(); if (!name) return;
-    fetch('/collections', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name }) }).then(function (r) { if (!r.ok) throw new Error('Create failed'); return r.json(); }).then(function () {
+    authFetch('/collections', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name }) }).then(function (r) { if (!r.ok) throw new Error('Create failed'); return r.json(); }).then(function () {
         toast('Collection "' + name + '" created.', 'success');
         DOM.newCollectionInput.value = ''; if (DOM.newCollectionRow) DOM.newCollectionRow.classList.add('hidden');
         fetchCollectionsAndPopulate().then(function () { STATE.activeCollection = name; saveToStorage('active_collection', name); [DOM.collectionSelect, DOM.settingsCollectionSelect].forEach(function (sel) { if (sel) sel.value = name; }); onCollectionChange({ target: { value: name } }); });
-    }).catch(function (err) { toast('Create failed: ' + err.message, 'error'); });
+    }).catch(function (err) {
+        if (isAuthError(err)) { AUTH.clear(); showAuthModal(); setAuthError('Please sign in to create collections.'); return; }
+        toast('Create failed: ' + err.message, 'error');
+    });
 }
 
 function cancelNewCollection() { if (DOM.newCollectionInput) DOM.newCollectionInput.value = ''; if (DOM.newCollectionRow) DOM.newCollectionRow.classList.add('hidden'); }
@@ -2136,6 +2302,9 @@ function boot() {
 // ═══════════════════════════════════════════════════════════════
 
 function bindEvents() {
+    if (DOM.authForm) DOM.authForm.addEventListener('submit', submitAuthForm);
+    if (DOM.authToggle) DOM.authToggle.addEventListener('click', function () { setAuthMode(AUTH.mode === 'register' ? 'login' : 'register'); });
+    if (DOM.logoutBtn) DOM.logoutBtn.addEventListener('click', function () { AUTH.clear(); toast('Signed out.', 'info'); });
     if (DOM.micBtn) DOM.micBtn.addEventListener('click', toggleListening);
     if (DOM.stopBtn) DOM.stopBtn.addEventListener('click', stopEverything);
     if (DOM.uploadBtn) DOM.uploadBtn.addEventListener('click', function () { if (DOM.fileInput) DOM.fileInput.click(); });
@@ -2189,12 +2358,15 @@ function bindEvents() {
     if (DOM.newChatBtn) DOM.newChatBtn.addEventListener('click', startNewChat);
     if (DOM.clearKnowledgeBtn) DOM.clearKnowledgeBtn.addEventListener('click', function () {
         var col = getActiveCollection(); if (!confirm('Delete ALL vectors from collection "' + col + '"?')) return;
-        fetch('/collections/' + col, { method: 'DELETE' }).then(function () {
+        authFetch('/collections/' + col, { method: 'DELETE' }).then(function () {
             STATE.documents.ingested = []; saveDocumentsForCollection(col, []);
             STATE.lastIntentWasDocument = false; resetLastRetrievalState(); persistActiveCollectionRetrieval();
             renderDocumentList(); STATE.services.qdrant.collectionReady = false;
             return ensureCollection();
-        }).then(function () { return fetchCollectionsAndPopulate(); }).then(function () { toast('Knowledge base cleared and collection recreated.', 'success'); }).catch(function (err) { toast('Failed to clear: ' + err.message, 'error'); });
+        }).then(function () { return fetchCollectionsAndPopulate(); }).then(function () { toast('Knowledge base cleared and collection recreated.', 'success'); }).catch(function (err) {
+            if (isAuthError(err)) { AUTH.clear(); showAuthModal(); setAuthError('Please sign in to clear knowledge.'); return; }
+            toast('Failed to clear: ' + err.message, 'error');
+        });
     });
     if (DOM.groqKeyInput) DOM.groqKeyInput.addEventListener('change', function () { /* Backend manages keys now */ toast('API keys are managed via server .env file.', 'info'); });
     if (DOM.groqKeyToggle) DOM.groqKeyToggle.addEventListener('click', function () { if (!DOM.groqKeyInput) return; DOM.groqKeyInput.type = DOM.groqKeyInput.type === 'password' ? 'text' : 'password'; });
@@ -2236,7 +2408,7 @@ function bindEvents() {
 
 
 function init() {
-    cacheDom(); loadSettings(); bindEvents(); NativeTTS.init(); PCMAudioPlayer.init(); startOrbAnimation();
+    cacheDom(); setAuthMode('login'); updateAuthUi(); loadSettings(); bindEvents(); NativeTTS.init(); PCMAudioPlayer.init(); startOrbAnimation();
     renderConversationToUi(); renderDocumentList();
     boot().catch(function (err) {
         console.error('Boot error:', err);

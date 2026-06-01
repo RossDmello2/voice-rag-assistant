@@ -15,12 +15,20 @@
 
 <!-- List the specific changes: files modified, logic changed, files added/removed -->
 
+## Architecture Impact
+
+- [ ] I checked `docs/architecture/README.md` and `docs/features/README.md`
+- [ ] This PR keeps the existing module boundaries clear
+- [ ] This PR does not move runtime code into a new feature package
+- [ ] If API behavior changed, schemas/docs/tests were updated
+
 ## Testing
 
 - [ ] I have added tests that cover the changes
-- [ ] Frontend tests pass: `cd voice_agent_backend && python -m pytest tests/frontend -q`
+- [ ] Backend and frontend tests pass: `cd voice_agent_backend && python -m pytest tests/backend tests/frontend -q`
 - [ ] JavaScript syntax passes: `node --check voice_agent_backend/frontend/script.js`
 - [ ] Pytest collection passes: `cd voice_agent_backend && python -m pytest --collect-only -q`
+- [ ] Import smoke passes: `cd voice_agent_backend && python scripts/checks/import_smoke.py`
 - [ ] I have tested this manually and described how
 
 ## Checklist
@@ -29,4 +37,5 @@
 - [ ] No new hardcoded secrets, API keys, or passwords
 - [ ] No `.env` file committed
 - [ ] Documentation updated if behaviour changed
+- [ ] `docs/features/README.md` updated if feature ownership changed
 - [ ] CHANGELOG.md updated if this is a user-facing change

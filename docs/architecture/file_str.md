@@ -1,6 +1,8 @@
 # 🗺️ Project Architecture & Logic Map (`file_str.md`)
 
-This document is the **Full Source of Truth** for the Voice Agent codebase. Combined with `docs/architecture/context.md`, it provides every technical detail needed for an LLM to navigate, debug, and extend the system without missing a single dependency or data flow.
+> Status: Legacy source-map note preserved for historical context. For current contribution planning, use `docs/architecture/README.md` and `docs/features/README.md` first. Some links below point to old local paths and should not be treated as current source-of-truth.
+
+This document was formerly used as a source map for the Voice Agent codebase. It is preserved for comparison only; the current source of truth is `docs/architecture/README.md` plus `docs/features/README.md`.
 
 ---
 

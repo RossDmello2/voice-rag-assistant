@@ -2,6 +2,8 @@
 
 **Date:** 2026-05-17
 
+> Status: Historical gap snapshot. Several gaps below have since been addressed, including auth mounting, protected mutating routes, backend tests, CodeQL, CI permissions, deployment docs, and `AGENTS.md`. For current truth, use `docs/operations/PRODUCTIONIZATION_SUMMARY.md`, `docs/operations/VERIFICATION_MATRIX.md`, and `docs/operations/CONTRIBUTION_READINESS_AUDIT.md`.
+
 ## Runtime Gaps
 
 - `/auth/register` and `/auth/login` exist but are not mounted in `app.main`.

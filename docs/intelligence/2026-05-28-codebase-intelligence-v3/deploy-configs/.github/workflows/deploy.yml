@@ -1,0 +1,26 @@
+name: Deploy Review Skeleton
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements-dev.txt
+      - working-directory: voice_agent_backend
+        run: python -m pytest tests/backend tests/frontend -q
+      - working-directory: voice_agent_backend
+        run: python scripts/checks/import_smoke.py
+  deploy-render:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"

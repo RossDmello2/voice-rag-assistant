@@ -7,6 +7,29 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+class QdrantWriteError(RuntimeError):
+    """Raised when a Qdrant write/delete request is not acknowledged."""
+
+
+def _write_acknowledged(data: dict) -> bool:
+    if not isinstance(data, dict):
+        return False
+    if data.get("status") in {"ok", "acknowledged", "completed"}:
+        return True
+    result = data.get("result")
+    if result is True:
+        return True
+    if isinstance(result, dict):
+        return result.get("status") in {"acknowledged", "completed"} or bool(result.get("operation_id"))
+    return False
+
+
+def _require_write_ack(action: str, data: dict) -> dict:
+    if _write_acknowledged(data):
+        return data
+    raise QdrantWriteError(f"Qdrant did not acknowledge {action}")
+
+
 # ── Qdrant REST API helpers ─────────────────────────────────────────
 
 
@@ -95,16 +118,18 @@ async def create_collection(name: str, vector_size: int) -> dict:
             "distance": "Cosine",
         }
     }
-    return await _qdrant_put(f"/collections/{name}", payload)
+    return _require_write_ack(
+        f"collection create for {name}",
+        await _qdrant_put(f"/collections/{name}", payload),
+    )
 
 
 async def delete_collection(name: str) -> dict:
     """Delete a Qdrant collection (this also removes all points inside it)."""
-    try:
-        return await _qdrant_delete(f"/collections/{name}")
-    except Exception:
-        # Collection may not exist — return gracefully
-        return {"status": "not_found"}
+    return _require_write_ack(
+        f"collection delete for {name}",
+        await _qdrant_delete(f"/collections/{name}"),
+    )
 
 
 async def collection_exists(name: str) -> bool:
@@ -172,8 +197,9 @@ async def delete_document_vectors(collection: str, filename: str) -> dict:
             ]
         }
     }
-    return await _qdrant_post(
-        f"/collections/{collection}/points/delete", payload
+    return _require_write_ack(
+        f"document delete for {filename}",
+        await _qdrant_post(f"/collections/{collection}/points/delete", payload),
     )
 
 
@@ -193,8 +219,9 @@ async def upsert_points(collection: str, points: list[dict]) -> dict:
             for p in points
         ]
     }
-    return await _qdrant_put(
-        f"/collections/{collection}/points", payload, timeout=120.0
+    return _require_write_ack(
+        f"point upsert for {collection}",
+        await _qdrant_put(f"/collections/{collection}/points", payload, timeout=120.0),
     )
 
 

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: voice-agent
+    env: docker
+    plan: starter
+    rootDir: voice_agent_backend
+    dockerfilePath: ./Dockerfile.production
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GROQ_API_KEY
+        sync: false
+      - key: QDRANT_BASE
+        sync: false
+      - key: OLLAMA_BASE
+        sync: false
+      - key: KOKORO_MODE
+        value: disabled
+    disk:
+      name: voice-agent-data
+      mountPath: /app/data
+      sizeGB: 1

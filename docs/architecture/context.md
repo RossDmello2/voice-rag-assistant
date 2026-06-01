@@ -1,3 +1,7 @@
+# Status
+
+This is a legacy architecture note preserved for historical context. For current contribution planning, use `docs/architecture/README.md` and `docs/features/README.md` first. Some statements below predate the current bearer-token auth boundary and may not describe the live app.
+
 # Voice Agent & Document Assistant - Project Context
 *Last Updated: 2026-04-16 (Post-Guest Refactor & Hardware Optimization)*
 

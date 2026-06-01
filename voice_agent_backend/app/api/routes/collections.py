@@ -8,6 +8,8 @@ from app.services.qdrant_service import (
     delete_document_vectors,
 )
 from app.core.config import settings, get_embed_dim
+from app.core.auth import get_current_user
+from app.models.user import User
 
 router = APIRouter()
 
@@ -25,6 +27,7 @@ async def get_collections():
 @router.post("/collections")
 async def create_collection_endpoint(
     req: CollectionCreateRequest,
+    _current_user: User = Depends(get_current_user),
 ):
     """Create a new Qdrant collection (idempotent)."""
     try:
@@ -39,6 +42,7 @@ async def create_collection_endpoint(
 @router.delete("/collections/{collection_name}")
 async def delete_collection_endpoint(
     collection_name: str,
+    _current_user: User = Depends(get_current_user),
 ):
     """Delete a Qdrant collection."""
     try:
@@ -62,6 +66,7 @@ async def get_documents(collection_name: str):
 async def delete_document(
     collection_name: str,
     filename: str,
+    _current_user: User = Depends(get_current_user),
 ):
     """Delete all vectors for a specific document."""
     try:

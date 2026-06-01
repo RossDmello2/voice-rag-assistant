@@ -1,7 +1,7 @@
 # Product Shape Decision
 
 **Date:** 2026-05-17  
-**Project:** voice-agent  
+**Project:** VoiceRAG Agent
 **Resolved root:** `C:\Users\rossd\OneDrive\Desktop\logic\voice_agent`
 
 ## Selected Shape

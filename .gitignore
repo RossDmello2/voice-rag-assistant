@@ -10,6 +10,8 @@ dist/
 .eggs/
 *.egg
 .pytest_cache/
+.test_runtime/
+voice_agent_backend/.test_runtime/
 .mypy_cache/
 .dmypy.json
 .ruff_cache/

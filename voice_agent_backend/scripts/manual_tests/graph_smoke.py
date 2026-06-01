@@ -8,17 +8,16 @@ sys.path.insert(0, str(BACKEND_ROOT))
 
 async def main():
     try:
-        from app.core.voice_graph import get_voice_graph
+        from app.core.voice_graph import get_compiled_graph
 
-        graph = get_voice_graph()
+        graph = get_compiled_graph()
         print("Graph compiled successfully!")
-        
-        # We can also check the graph structure
-        nodes = graph.nodes
-        print(f"Nodes: {list(nodes.keys())}")
+        structure = graph.get_graph()
+        print(f"Nodes: {list(structure.nodes.keys())}")
         
     except Exception as e:
         print(f"Error compiling graph: {e}")
+        raise
 
 if __name__ == "__main__":
     asyncio.run(main())

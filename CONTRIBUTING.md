@@ -1,4 +1,4 @@
-# Contributing to voice-agent
+# Contributing to VoiceRAG Agent
 
 Thank you for your interest in contributing.
 
@@ -9,6 +9,12 @@ Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md). Include wha
 ## How to Request a Feature
 
 Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md). Describe the problem you are solving, not only the requested implementation.
+
+## Architecture and Feature Workflow
+
+Read [docs/README.md](docs/README.md) and [docs/architecture/README.md](docs/architecture/README.md) before non-trivial changes. Use [docs/features/README.md](docs/features/README.md) to identify the current feature owner files, tests, and security constraints before adding a new capability.
+
+Do not move runtime code into a new feature package as part of ordinary feature work. The current app is intentionally layer-based; a runtime `app/features/` migration should be a separate no-behavior-change refactor with a movement map and full verification.
 
 ## How to Submit Code
 
@@ -22,8 +28,9 @@ Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md). D
    ```bash
    node --check voice_agent_backend/frontend/script.js
    cd voice_agent_backend
-   python -m pytest tests/frontend -q
+   python -m pytest tests/backend tests/frontend -q
    python -m pytest --collect-only -q
+   python scripts/checks/import_smoke.py
    ```
 5. Commit using Conventional Commits.
 6. Open a pull request against `main` using the PR template.

@@ -1,10 +1,12 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Request, Depends
 from app.models.schemas import IngestResponse
 from app.core.config import settings, get_embed_dim
-from app.services.qdrant_service import create_collection, upsert_points
+from app.services.qdrant_service import QdrantWriteError, create_collection, upsert_points
 from app.services.ollama_service import generate_embedding
 from app.services.qdrant_service import list_collections
 from app.core.limiter import limiter
+from app.core.auth import get_current_user
+from app.models.user import User
 import logging
 import asyncio
 import re
@@ -43,6 +45,26 @@ STOP_WORDS = {
     "had",
     "have",
 }
+
+
+def sanitize_filename(filename: Optional[str], fallback_ext: str = ".txt") -> str:
+    """Return a filesystem/vector-store safe display filename."""
+    raw_name = os.path.basename(filename or "")
+    safe_name = "".join(c for c in raw_name if c.isalnum() or c in "._-").strip("._")
+    if safe_name:
+        return safe_name[:180]
+    return f"upload_{int(time.time())}{fallback_ext}"
+
+
+def _qdrant_write_acknowledged(result: Dict[str, Any]) -> bool:
+    if not isinstance(result, dict):
+        return False
+    if result.get("status") in {"ok", "acknowledged", "completed"}:
+        return True
+    inner = result.get("result")
+    if isinstance(inner, dict):
+        return inner.get("status") in {"acknowledged", "completed"} or bool(inner.get("operation_id"))
+    return False
 
 
 def is_heading_line(line: str) -> bool:
@@ -388,7 +410,10 @@ async def ingest_document(
         raise HTTPException(status_code=500, detail="All chunks failed to embed")
 
     # Upsert to Qdrant
-    await upsert_points(collection, points)
+    upsert_result = await upsert_points(collection, points)
+    if not _qdrant_write_acknowledged(upsert_result):
+        logger.error("Qdrant upsert did not acknowledge the ingest write.")
+        raise HTTPException(status_code=502, detail="Vector store write failed")
 
     return len(points)
 
@@ -398,8 +423,9 @@ async def ingest_document(
 async def ingest_endpoint(
     request: Request,
     file: UploadFile = File(...),
-    collection: str = Form("agent_knowledge"),
+    collection: str = Form("agent_knowledge", min_length=1, max_length=128, pattern=r"^[a-zA-Z0-9_-]+$"),
     embed_model: Optional[str] = Form(None),
+    _current_user: User = Depends(get_current_user),
 ):
     """
     Accept multipart file upload, extract text, chunk, embed, upsert to Qdrant.
@@ -420,27 +446,25 @@ async def ingest_endpoint(
         )
 
     # 3. Sanitize and Save
-    safe_filename = "".join(
-        [c for c in file.filename if c.isalnum() or c in "._-"]
-    ).strip()
-    if not safe_filename:
-        safe_filename = f"upload_{int(time.time())}{ext}"
+    safe_filename = sanitize_filename(file.filename, ext)
 
     try:
         chunks_created = await ingest_document(
             file_bytes=file_content,
-            filename=file.filename or "unknown",
+            filename=safe_filename,
             collection=collection,
             embed_model=embed_model,
         )
 
         return IngestResponse(
-            filename=file.filename or "unknown",
+            filename=safe_filename,
             chunks_created=chunks_created,
             collection=collection,
             status="success",
         )
     except HTTPException:
         raise
+    except QdrantWriteError as e:
+        raise HTTPException(status_code=502, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ingest failed: {str(e)}")

@@ -93,13 +93,14 @@ app.add_middleware(AuditLoggingMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8000", "http://127.0.0.1:8000"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
 app.include_router(chat.router)
+app.include_router(auth.router)
 app.include_router(ingest.router)
 app.include_router(stt.router)
 app.include_router(collections.router)

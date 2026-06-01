@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings
 from pydantic import field_validator
-from typing import List
+from typing import List, Optional
 import os
 from pathlib import Path
 
@@ -54,6 +54,9 @@ ENV_FILE = os.path.join(BASE_DIR, ".env")
 
 
 class Settings(BaseSettings):
+    # Runtime mode
+    APP_ENV: str = "local"
+
     # Service URLs
     OLLAMA_BASE: str = "http://localhost:11434"
     QDRANT_BASE: str = "http://localhost:6333"
@@ -126,12 +129,19 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50 MB
     ENABLE_RATE_LIMIT: bool = True
+    DATABASE_URL: Optional[str] = None
 
     @field_validator("SECRET_KEY")
     @classmethod
-    def validate_secret_key(cls, v: str) -> str:
+    def validate_secret_key(cls, v: str, info) -> str:
         if not v:
             raise ValueError("SECRET_KEY must be set")
+        app_env = "local"
+        if info.data:
+            app_env = str(info.data.get("APP_ENV", "local")).lower()
+        local_envs = {"local", "dev", "development", "test", "testing"}
+        if app_env not in local_envs and v == "fallback_secret_key_change_me_in_production":
+            raise ValueError("SECRET_KEY must be changed outside local/test environments")
         return v
 
     @field_validator("KOKORO_MODEL_PATH", "KOKORO_VOICES_PATH", mode="before")

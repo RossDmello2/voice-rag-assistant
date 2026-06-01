@@ -1,0 +1,39 @@
+# Python and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and secrets
+.env
+*.env
+!.env.example
+.venv/
+venv/
+ENV/
+env/
+
+# Local model and database artifacts
+data/models/*.onnx
+data/models/*.bin
+data/sqlite/*.db
+data/sqlite/*.sqlite
+data/sqlite/*.sqlite3
+
+# Frontend/test outputs
+node_modules/
+playwright-report/
+test-results/
+
+# Logs and editor files
+*.log
+logs/
+*.tmp
+*.temp
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

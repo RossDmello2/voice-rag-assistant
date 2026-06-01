@@ -1,100 +1,61 @@
-# Standard Operating Procedure (SOP): Ultimate Voice Agent
+# Local Operating Guide: VoiceRAG Agent
 
-Welcome to the Ultimate Voice Agent! This guide is designed for beginners and laymen to understand, configure, and run the voice agent step-by-step. 
+This guide is for running VoiceRAG Agent locally from a cloned repository. It replaces older machine-specific instructions that referenced private local paths.
 
-## 1. What is the Ultimate Voice Agent?
+## What VoiceRAG Agent Is
 
-The Ultimate Voice Agent is an advanced, multi-agent AI system that you can talk to in real-time. It has two "brains":
-1. **The Fast Path**: For simple questions (like "Hello", "How are you?"), it responds instantly.
-2. **The ULTRATHINK Path**: For complex reasoning (like math or coding), a "Supervisor" agent detects the complexity and routes it to a deep-thinking agent. The UI will glow **purple** while it thinks before finally speaking the answer.
+VoiceRAG Agent is a local-first voice-to-voice RAG assistant. It serves a browser UI from FastAPI, accepts text or voice input, can ingest documents into Qdrant, retrieves document context with Ollama embeddings, generates responses through Groq or Ollama, and can speak responses through Kokoro ONNX TTS.
 
----
+Groq-backed STT/chat/translation use cloud APIs. Keep provider keys in `voice_agent_backend/.env`; never paste secrets into issues, screenshots, or docs.
 
-## 2. Directory Structure
+## Start The App
 
-Before running the agent, you need to be in the correct folder. 
+From the repository root:
 
-**Your Target Directory:**
-`C:\Users\rossd\Dropbox\PC\Downloads\rag-demo-n8n-to-web\chatbot_static_files_fixed\voice agent\voice agent migration\voice_agent\voice_agent_backend`
-
-Inside this folder, you will find:
-- `app/` - The core logic, agents, and API routes.
-- `frontend/` - The user interface (HTML, CSS, JS) that you interact with in the browser.
-- `.env` - (Required) Your secret configuration file.
-- `start_server.bat` - The script you click or run to start the agent.
-
----
-
-## 3. Configuration & Prerequisites
-
-Before running the agent for the first time, ensure you have your environment set up.
-
-### Environment Variables (`.env` file)
-Copy the root `.env.example` file to `voice_agent_backend/.env`. Open `voice_agent_backend/.env` with Notepad and ensure it contains your API keys:
-```env
-GROQ_API_KEY=
-```
-*(The system uses Groq to generate fast LLM responses. Make sure your Groq account is funded or active).*
-
----
-
-## 4. How to Run the Agent
-
-Follow these exact steps to start the server:
-
-### Step 1: Open your Terminal (PowerShell)
-Open PowerShell on your Windows computer.
-
-### Step 2: Navigate to the Backend Directory
-Type the following command and press **Enter**:
 ```powershell
-cd "C:\Users\rossd\Dropbox\PC\Downloads\rag-demo-n8n-to-web\chatbot_static_files_fixed\voice agent\voice agent migration\voice_agent\voice_agent_backend"
+python -m venv venv
+venv\Scripts\activate
+pip install -r voice_agent_backend\requirements.txt
+Copy-Item .env.example voice_agent_backend\.env
 ```
 
-### Step 3: Run the Start Script
-Type the following command and press **Enter**:
+Edit `voice_agent_backend\.env`, then start the dependencies you need:
+
 ```powershell
-.\start_server.bat
+docker run -p 6333:6333 qdrant/qdrant
+ollama pull mxbai-embed-large
 ```
 
-### Step 4: Access the Frontend
-Once the server starts, you will see logs appearing in your terminal. 
-Open your web browser (Chrome/Edge) and go to:
-**`http://127.0.0.1:50501`**
+Start the app:
 
----
+```powershell
+Set-Location voice_agent_backend
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
 
-## 5. How to Use the Voice Agent (The UI)
+Open `http://127.0.0.1:8000`.
 
-Once you open the browser link, you will see the Agent's interface.
-- **The Orb**: In the center of the screen is a glowing orb.
-  - **Blue/Dim**: Idle.
-  - **Orange**: Processing a standard fast-path response.
-  - **Purple**: "ULTRATHINK" Mode. The agent is tackling a complex problem and thinking deeply.
-  - **Green**: Speaking to you.
-- **Microphone Button**: Click this to start talking. Speak naturally!
-- **Text Input**: If you prefer not to speak, you can type your question at the bottom and hit Send.
+## Use The UI
 
----
+- Use the text box for typed questions.
+- Use the microphone button for voice input when browser speech capture is available.
+- Sign in before uploading documents or creating/deleting collections.
+- Keep read-only chat and health checks local-first unless you intentionally add broader deployment auth.
 
-## 6. Common Warnings & Terminal Logs (Troubleshooting)
+## Stop The App
 
-When running `.\start_server.bat`, you will see a lot of text scrolling by in the terminal. **Do not panic if you see yellow warnings!** Here is what they mean:
+Press `Ctrl+C` in the terminal that is running Uvicorn.
 
-> [!WARNING]
-> **`[W:onnxruntime:Default... OP Conv... running in Fallback mode. May be extremely slow.]`**
-> **What it means:** The Text-to-Speech (TTS) engine (Kokoro) uses ONNX runtime to generate audio. Since this system is running on a GTX 1650 (which has limited VRAM), some audio generation layers fall back to the CPU instead of the GPU. 
-> **Action:** Ignore it. The audio will still generate, it just might take a fraction of a second longer.
+## Useful Checks
 
-> [!WARNING]
-> **`WARNING:phonemizer:words count mismatch on 100.0% of the lines`**
-> **What it means:** The text-to-speech engine parses numbers and symbols slightly differently than standard words.
-> **Action:** Ignore it. It is completely harmless and normal.
+```powershell
+git check-ignore voice_agent_backend/.env voice_agent_backend/data/models/kokoro-v1.0.onnx voice_agent_backend/data/sqlite/voice_agent.db
+node --check voice_agent_backend/frontend/script.js
+Set-Location voice_agent_backend
+python -m compileall app scripts tests
+python -m pytest tests/backend tests/frontend -q
+python scripts/checks/import_smoke.py
+python -c "from app.main import app; print(app.title)"
+```
 
-> [!NOTE]
-> **`INFO: 127.0.0.1:50501 - "POST /chat/stream HTTP/1.1" 200 OK`**
-> **What it means:** The frontend successfully communicated with the backend and received a response.
-> **Action:** None. This means your agent is working perfectly!
-
-### How to Stop the Server
-When you are done using the agent, go back to your PowerShell window and press **`Ctrl + C`**. It will ask `Terminate batch job (Y/N)?`. Type **`y`** and press Enter.
+Provider-level smoke checks need configured Qdrant, Ollama, Kokoro model artifacts, and Groq credentials.

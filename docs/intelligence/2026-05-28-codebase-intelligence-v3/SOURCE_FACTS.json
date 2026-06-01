@@ -1,0 +1,2235 @@
+{
+  "root": "C:\\Users\\rossd\\OneDrive\\Desktop\\logic\\voice_agent",
+  "output_dir": "C:\\Users\\rossd\\OneDrive\\Desktop\\logic\\voice_agent\\docs\\intelligence\\2026-05-28-codebase-intelligence-v3",
+  "file_count": 124,
+  "read_count": 120,
+  "excluded_secret_count": 1,
+  "excluded_binary_count": 3,
+  "loc_read": 16691,
+  "route_lines": [
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 256,
+      "text": "- **Auth**: JWT tokens, created in `app/core/auth.py`, validated via `Depends(get_current_user)` on protected routes"
+    },
+    {
+      "path": "docs/intelligence/SA3_FRONTEND.md",
+      "line": 190,
+      "text": "- `voice_agent_backend/app/core/auth.py:14`: oauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"auth/login\", auto_error=False)"
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 162,
+      "text": "- `voice_agent_backend/app/core/auth.py:14`: oauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"auth/login\", auto_error=False)"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 190,
+      "text": "# - All existing routes get `current_user: User = Depends(get_current_user)` dependency"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 999,
+      "text": "@router.post(\"/chat\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/auth.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, Depends, HTTPException, status"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/auth.py",
+      "line": 10,
+      "text": "router = APIRouter(prefix=\"/auth\", tags=[\"auth\"])"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/auth.py",
+      "line": 20,
+      "text": "@router.post(\"/register\", response_model=Token)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/auth.py",
+      "line": 39,
+      "text": "@router.post(\"/login\", response_model=Token)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, HTTPException, Request, Depends"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 30,
+      "text": "router = APIRouter()"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 52,
+      "text": "@router.post(\"/chat\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 291,
+      "text": "@router.post(\"/chat/predict\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 328,
+      "text": "@router.post(\"/chat/backchannel/{session_id}\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 353,
+      "text": "@router.post(\"/chat/stream\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 488,
+      "text": "@router.post(\"/chat/interrupt/{thread_id}\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, HTTPException, Depends"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 14,
+      "text": "router = APIRouter()"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 17,
+      "text": "@router.get(\"/collections\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 27,
+      "text": "@router.post(\"/collections\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 30,
+      "text": "_current_user: User = Depends(get_current_user),"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 42,
+      "text": "@router.delete(\"/collections/{collection_name}\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 45,
+      "text": "_current_user: User = Depends(get_current_user),"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 55,
+      "text": "@router.get(\"/collections/{collection_name}/documents\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 65,
+      "text": "@router.delete(\"/collections/{collection_name}/documents/{filename}\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 69,
+      "text": "_current_user: User = Depends(get_current_user),"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/health.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/health.py",
+      "line": 7,
+      "text": "router = APIRouter()"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/health.py",
+      "line": 10,
+      "text": "@router.get(\"/health\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Request, Depends"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 20,
+      "text": "router = APIRouter()"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 421,
+      "text": "@router.post(\"/ingest\", response_model=IngestResponse)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 428,
+      "text": "_current_user: User = Depends(get_current_user),"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/models.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/models.py",
+      "line": 8,
+      "text": "router = APIRouter(prefix=\"/models\", tags=[\"models\"])"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/models.py",
+      "line": 34,
+      "text": "@router.get(\"\")"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/stt.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, UploadFile, File, Form, HTTPException"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/stt.py",
+      "line": 5,
+      "text": "router = APIRouter()"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/stt.py",
+      "line": 8,
+      "text": "@router.post(\"/stt\", response_model=STTResponse)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 1,
+      "text": "from fastapi import APIRouter, Depends"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 8,
+      "text": "router = APIRouter(prefix=\"/tts\", tags=[\"tts\"])"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 17,
+      "text": "@router.post(\"/generate\")"
+    },
+    {
+      "path": "voice_agent_backend/app/core/auth.py",
+      "line": 14,
+      "text": "oauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"auth/login\", auto_error=False)"
+    },
+    {
+      "path": "voice_agent_backend/app/core/auth.py",
+      "line": 41,
+      "text": "token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)"
+    }
+  ],
+  "env_refs": [
+    {
+      "path": ".env.example",
+      "line": 9,
+      "text": "HOST=0.0.0.0"
+    },
+    {
+      "path": ".env.example",
+      "line": 10,
+      "text": "PORT=8000"
+    },
+    {
+      "path": ".env.example",
+      "line": 11,
+      "text": "CORS_ORIGINS=[\"http://localhost:8000\",\"http://127.0.0.1:8000\"]"
+    },
+    {
+      "path": ".env.example",
+      "line": 12,
+      "text": "ALLOWED_HOSTS=[\"localhost\",\"127.0.0.1\"]"
+    },
+    {
+      "path": ".env.example",
+      "line": 14,
+      "text": "DATABASE_URL="
+    },
+    {
+      "path": ".env.example",
+      "line": 17,
+      "text": "SECRET_KEY="
+    },
+    {
+      "path": ".env.example",
+      "line": 23,
+      "text": "GROQ_BASE=https://api.groq.com/openai/v1"
+    },
+    {
+      "path": ".env.example",
+      "line": 24,
+      "text": "GROQ_API_KEY="
+    },
+    {
+      "path": ".env.example",
+      "line": 25,
+      "text": "OLLAMA_BASE=http://localhost:11434"
+    },
+    {
+      "path": ".env.example",
+      "line": 26,
+      "text": "QDRANT_BASE=http://localhost:6333"
+    },
+    {
+      "path": ".env.example",
+      "line": 52,
+      "text": "KOKORO_MODE=native"
+    },
+    {
+      "path": ".env.example",
+      "line": 53,
+      "text": "KOKORO_DOCKER_URL=http://127.0.0.1:8880"
+    },
+    {
+      "path": ".env.example",
+      "line": 54,
+      "text": "KOKORO_MODEL_PATH=data/models/kokoro-v1.0.onnx"
+    },
+    {
+      "path": ".env.example",
+      "line": 55,
+      "text": "KOKORO_VOICES_PATH=data/models/voices-v1.0.bin"
+    },
+    {
+      "path": ".env.example",
+      "line": 56,
+      "text": "KOKORO_LANG_CODE=a"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "line": 28,
+      "text": "- Added `APP_ENV` and optional `DATABASE_URL` runtime configuration."
+    },
+    {
+      "path": "README.md",
+      "line": 93,
+      "text": "| `DATABASE_URL` | No | local SQLite file | Optional SQLAlchemy database URL. Leave blank to use `voice_agent_backend/data/sqlite/voice_agent.db`. |"
+    },
+    {
+      "path": "README.md",
+      "line": 94,
+      "text": "| `OLLAMA_BASE` | No | `http://localhost:11434` | Ollama API base URL for embeddings and optional chat. |"
+    },
+    {
+      "path": "README.md",
+      "line": 95,
+      "text": "| `QDRANT_BASE` | No | `http://localhost:6333` | Qdrant API base URL. |"
+    },
+    {
+      "path": "README.md",
+      "line": 96,
+      "text": "| `GROQ_BASE` | No | `https://api.groq.com/openai/v1` | Groq OpenAI-compatible API base URL. |"
+    },
+    {
+      "path": "README.md",
+      "line": 97,
+      "text": "| `GROQ_API_KEY` | Yes for Groq/STT | none | Groq API key. |"
+    },
+    {
+      "path": "README.md",
+      "line": 113,
+      "text": "| `KOKORO_MODE` | No | `native` | TTS mode: `native`, `docker`, or `disabled`. |"
+    },
+    {
+      "path": "README.md",
+      "line": 114,
+      "text": "| `KOKORO_DOCKER_URL` | No | `http://127.0.0.1:8880` | Kokoro sidecar URL. |"
+    },
+    {
+      "path": "README.md",
+      "line": 115,
+      "text": "| `KOKORO_MODEL_PATH` | No | `data/models/kokoro-v1.0.onnx` | Kokoro ONNX model path relative to `voice_agent_backend`. |"
+    },
+    {
+      "path": "README.md",
+      "line": 116,
+      "text": "| `KOKORO_VOICES_PATH` | No | `data/models/voices-v1.0.bin` | Kokoro voice artifact path relative to `voice_agent_backend`. |"
+    },
+    {
+      "path": "README.md",
+      "line": 117,
+      "text": "| `KOKORO_LANG_CODE` | No | `a` | Kokoro language code. |"
+    },
+    {
+      "path": "README.md",
+      "line": 129,
+      "text": "| `CORS_ORIGINS` | No | local app URLs | Allowed CORS origins. |"
+    },
+    {
+      "path": "README.md",
+      "line": 130,
+      "text": "| `ALLOWED_HOSTS` | No | local hosts | Allowed hostnames. |"
+    },
+    {
+      "path": "README.md",
+      "line": 131,
+      "text": "| `SECRET_KEY` | Yes | none in template | JWT signing key. |"
+    },
+    {
+      "path": "README.md",
+      "line": 136,
+      "text": "| `HOST` | No | `0.0.0.0` | Server bind host. |"
+    },
+    {
+      "path": "README.md",
+      "line": 137,
+      "text": "| `PORT` | No | `8000` | Server port. |"
+    },
+    {
+      "path": "SECURITY.md",
+      "line": 27,
+      "text": "- Set a strong `SECRET_KEY` in `voice_agent_backend/.env`; do not use the fallback development value in production."
+    },
+    {
+      "path": "SECURITY.md",
+      "line": 29,
+      "text": "- Keep `GROQ_API_KEY` and `TAVILY_API_KEY` out of source control."
+    },
+    {
+      "path": "docs/deployment.md",
+      "line": 8,
+      "text": "2. Set `SECRET_KEY` to a strong random value."
+    },
+    {
+      "path": "docs/deployment.md",
+      "line": 9,
+      "text": "3. Set `GROQ_API_KEY` if using Groq chat, translation, or STT."
+    },
+    {
+      "path": "docs/deployment.md",
+      "line": 44,
+      "text": "- Use a strong `SECRET_KEY`; the fallback local secret is rejected in production mode."
+    },
+    {
+      "path": "docs/deployment.md",
+      "line": 46,
+      "text": "- Restrict `CORS_ORIGINS` and `ALLOWED_HOSTS`."
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 40,
+      "text": "GROQ_API_KEY="
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 92,
+      "text": "\u251c\u2500\u2500 .env                    \u2190 YOUR CONFIG (edit GROQ_API_KEY here)"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 137,
+      "text": "| GROQ_API_KEY | (empty) | **REQUIRED** \u2014 Get from console.groq.com |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 138,
+      "text": "| GROQ_BASE | https://api.groq.com/openai/v1 | Groq API base URL |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 141,
+      "text": "| OLLAMA_BASE | http://localhost:11434 | Ollama URL (only if using Ollama) |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 143,
+      "text": "| QDRANT_BASE | http://localhost:6333 | Qdrant URL |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 144,
+      "text": "| SECRET_KEY | (set in .env) | JWT signing key \u2014 change this! |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 145,
+      "text": "| PORT | 8000 | Server port |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 146,
+      "text": "| KOKORO_MODE | disabled | TTS: \"disabled\", \"native\", or \"docker\" |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 147,
+      "text": "| KOKORO_MODEL_PATH | data/models/kokoro-v1.0.onnx | Kokoro ONNX model file |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 148,
+      "text": "| KOKORO_VOICES_PATH | data/models/voices-v1.0.bin | Kokoro voice artifact file |"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 166,
+      "text": "5. **[HIGH] `requirements.txt` included `kokoro`** \u2014 Kokoro TTS library is hard to install and only needed if `KOKORO_MODE=native`. Made optional (commented out). `KOKORO_MODE=disabled` by default."
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 225,
+      "text": "\u2192 Edit `.env` and set a real `GROQ_API_KEY`"
+    },
+    {
+      "path": "docs/guides/HANDOFF_README.md",
+      "line": 268,
+      "text": "## PORTS USED"
+    },
+    {
+      "path": "docs/guides/sop(voice_agent).md",
+      "line": 35,
+      "text": "GROQ_API_KEY="
+    },
+    {
+      "path": "docs/intelligence/OPERATION_LOG.md",
+      "line": 86,
+      "text": "- 3. Make `SECRET_KEY` mandatory and reject the fallback in production."
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 91,
+      "text": "| OLLAMA_BASE | voice_agent_backend/app/core/config.py:58 | 7 | \"http://localhost:11434\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 92,
+      "text": "| QDRANT_BASE | voice_agent_backend/app/core/config.py:59 | 8 | \"http://localhost:6333\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 93,
+      "text": "| GROQ_BASE | voice_agent_backend/app/core/config.py:60 | 8 | \"https://api.groq.com/openai/v1\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 94,
+      "text": "| GROQ_API_KEY | voice_agent_backend/app/core/config.py:61 | 9 | \"\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 110,
+      "text": "| KOKORO_MODE | voice_agent_backend/app/core/config.py:89 | 0 | \"native\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 111,
+      "text": "| KOKORO_DOCKER_URL | voice_agent_backend/app/core/config.py:91 | 0 | \"http://127.0.0.1:8880\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 112,
+      "text": "| KOKORO_MODEL_PATH | voice_agent_backend/app/core/config.py:93 | 1 | \"../kokoro-v1.0.onnx\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 113,
+      "text": "| KOKORO_VOICES_PATH | voice_agent_backend/app/core/config.py:95 | 0 | \"../voices-v1.0.bin\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 114,
+      "text": "| KOKORO_LANG_CODE | voice_agent_backend/app/core/config.py:97 | 0 | \"a\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 126,
+      "text": "| CORS_ORIGINS | voice_agent_backend/app/core/config.py:120 | 0 | [\"http://localhost:8000\", \"http://127.0.0.1:8000\"] |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 127,
+      "text": "| ALLOWED_HOSTS | voice_agent_backend/app/core/config.py:121 | 0 | [\"localhost\", \"127.0.0.1\"] |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 128,
+      "text": "| SECRET_KEY | voice_agent_backend/app/core/config.py:124 | 2 | [REDACTED fallback secret default] |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 133,
+      "text": "| HOST | voice_agent_backend/app/core/config.py:148 | 0 | \"0.0.0.0\" |"
+    },
+    {
+      "path": "docs/intelligence/SA1_ARCHITECTURE.md",
+      "line": 134,
+      "text": "| PORT | voice_agent_backend/app/core/config.py:149 | 0 | 8000 |"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 131,
+      "text": "- `docs/intelligence/_generate_docs.py:387`: (\"Groq\", \"`settings.GROQ_BASE`, default `https://api.groq.com/openai/v1`\", \"Bearer `GROQ_API_KEY`\", \"httpx call-level/shared client\", \"no central retry found\", \"service/route excep"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 133,
+      "text": "- `docs/intelligence/_generate_docs.py:388`: (\"Ollama\", \"`settings.OLLAMA_BASE`, default `http://localhost:11434`\", \"none/local\", \"httpx call-level/shared client\", \"no central retry found\", \"empty model list/offline health/er"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 135,
+      "text": "- `docs/intelligence/_generate_docs.py:389`: (\"Qdrant\", \"`settings.QDRANT_BASE`, default `http://localhost:6333`\", \"none observed\", \"10-30 second helper timeouts\", \"no central retry found\", \"empty dict/results or route error\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 137,
+      "text": "- `docs/intelligence/_generate_docs.py:390`: (\"Kokoro native ONNX\", \"`KOKORO_MODEL_PATH`, `KOKORO_VOICES_PATH`\", \"local file assets\", \"startup/runtime load time\", \"fallback depends on mode\", \"TTS warning/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 139,
+      "text": "- `docs/intelligence/_generate_docs.py:391`: (\"Kokoro Docker sidecar\", \"`KOKORO_DOCKER_URL`\", \"none/local\", \"httpx/service specific\", \"no central retry found\", \"TTS error/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 143,
+      "text": "- `docs/intelligence/_generate_docs.py:395`: \"## LLM Integration Details\\nGroq chat builds chat-completion URLs from `settings.GROQ_BASE` in `voice_agent_backend/app/services/groq_service.py:25` and sends bearer auth from `se"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 153,
+      "text": "- `docs/intelligence/_generate_docs.py:460`: (\"Groq\", \"GROQ_API_KEY\", \"route/service exception or health offline\", \"no central retry found\"),"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 157,
+      "text": "- `voice_agent_backend/app/api/routes/models.py:22`: model_path = Path(settings.KOKORO_MODEL_PATH)"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 159,
+      "text": "- `voice_agent_backend/app/core/config.py:58`: OLLAMA_BASE: str = \"http://localhost:11434\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 161,
+      "text": "- `voice_agent_backend/app/core/config.py:59`: QDRANT_BASE: str = \"http://localhost:6333\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 163,
+      "text": "- `voice_agent_backend/app/core/config.py:60`: GROQ_BASE: str = \"https://api.groq.com/openai/v1\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 165,
+      "text": "- `voice_agent_backend/app/core/config.py:61`: GROQ_API_KEY: str = \"\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 167,
+      "text": "- `voice_agent_backend/app/core/config.py:89`: KOKORO_MODE: str = \"native\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 169,
+      "text": "- `voice_agent_backend/app/core/config.py:91`: KOKORO_DOCKER_URL: str = \"http://127.0.0.1:8880\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 171,
+      "text": "- `voice_agent_backend/app/core/config.py:93`: KOKORO_MODEL_PATH: str = \"../kokoro-v1.0.onnx\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 173,
+      "text": "- `voice_agent_backend/app/core/config.py:95`: KOKORO_VOICES_PATH: str = \"../voices-v1.0.bin\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 175,
+      "text": "- `voice_agent_backend/app/core/config.py:97`: KOKORO_LANG_CODE: str = \"a\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 181,
+      "text": "- `voice_agent_backend/app/core/config.py:137`: @field_validator(\"KOKORO_MODEL_PATH\", \"KOKORO_VOICES_PATH\", mode=\"before\")"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 185,
+      "text": "- `voice_agent_backend/app/main.py:60`: if getattr(settings, \"KOKORO_MODE\", \"native\") == \"native\":"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 187,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:25`: url = f\"{settings.GROQ_BASE}/chat/completions\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 189,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:27`: \"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\","
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 191,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:87`: url = f\"{settings.GROQ_BASE}/audio/transcriptions\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 193,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:89`: \"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\","
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 195,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:124`: url = f\"{settings.GROQ_BASE}/models\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 197,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:125`: headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"}"
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 199,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:139`: url = f\"{settings.GROQ_BASE}/models\""
+    },
+    {
+      "path": "docs/intelligence/SA2_BACKEND.md",
+      "line": 201,
+      "text": "- `voice_agent_backend/app/services/groq_service.py:140`: headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"}"
+    },
+    {
+      "path": "docs/intelligence/SA3_FRONTEND.md",
+      "line": 116,
+      "text": "- `docs/intelligence/_generate_docs.py:388`: (\"Ollama\", \"`settings.OLLAMA_BASE`, default `http://localhost:11434`\", \"none/local\", \"httpx call-level/shared client\", \"no central retry found\", \"empty model list/offline health/er"
+    },
+    {
+      "path": "docs/intelligence/SA3_FRONTEND.md",
+      "line": 118,
+      "text": "- `docs/intelligence/_generate_docs.py:389`: (\"Qdrant\", \"`settings.QDRANT_BASE`, default `http://localhost:6333`\", \"none observed\", \"10-30 second helper timeouts\", \"no central retry found\", \"empty dict/results or route error\""
+    },
+    {
+      "path": "docs/intelligence/SA3_FRONTEND.md",
+      "line": 120,
+      "text": "- `docs/intelligence/_generate_docs.py:390`: (\"Kokoro native ONNX\", \"`KOKORO_MODEL_PATH`, `KOKORO_VOICES_PATH`\", \"local file assets\", \"startup/runtime load time\", \"fallback depends on mode\", \"TTS warning/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA3_FRONTEND.md",
+      "line": 122,
+      "text": "- `docs/intelligence/_generate_docs.py:391`: (\"Kokoro Docker sidecar\", \"`KOKORO_DOCKER_URL`\", \"none/local\", \"httpx/service specific\", \"no central retry found\", \"TTS error/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 6,
+      "text": "| Groq | `settings.GROQ_BASE`, default `https://api.groq.com/openai/v1` | Bearer `GROQ_API_KEY` | httpx call-level/shared client | no central retry found | service/route exceptions or offline health |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 7,
+      "text": "| Ollama | `settings.OLLAMA_BASE`, default `http://localhost:11434` | none/local | httpx call-level/shared client | no central retry found | empty model list/offline health/errors |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 8,
+      "text": "| Qdrant | `settings.QDRANT_BASE`, default `http://localhost:6333` | none observed | 10-30 second helper timeouts | no central retry found | empty dict/results or route error |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 9,
+      "text": "| Kokoro native ONNX | `KOKORO_MODEL_PATH`, `KOKORO_VOICES_PATH` | local file assets | startup/runtime load time | fallback depends on mode | TTS warning/degradation |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 10,
+      "text": "| Kokoro Docker sidecar | `KOKORO_DOCKER_URL` | none/local | httpx/service specific | no central retry found | TTS error/degradation |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 21,
+      "text": "| docs/intelligence/_generate_docs.py:387 | (\"Groq\", \"`settings.GROQ_BASE`, default `https://api.groq.com/openai/v1`\", \"Bearer `GROQ_API_KEY`\", \"httpx call-level/shared client\", \"no central retry found\", \"service/route excep |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 22,
+      "text": "| docs/intelligence/_generate_docs.py:388 | (\"Ollama\", \"`settings.OLLAMA_BASE`, default `http://localhost:11434`\", \"none/local\", \"httpx call-level/shared client\", \"no central retry found\", \"empty model list/offline health/er |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 23,
+      "text": "| docs/intelligence/_generate_docs.py:389 | (\"Qdrant\", \"`settings.QDRANT_BASE`, default `http://localhost:6333`\", \"none observed\", \"10-30 second helper timeouts\", \"no central retry found\", \"empty dict/results or route error\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 24,
+      "text": "| docs/intelligence/_generate_docs.py:390 | (\"Kokoro native ONNX\", \"`KOKORO_MODEL_PATH`, `KOKORO_VOICES_PATH`\", \"local file assets\", \"startup/runtime load time\", \"fallback depends on mode\", \"TTS warning/degradation\"), |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 25,
+      "text": "| docs/intelligence/_generate_docs.py:391 | (\"Kokoro Docker sidecar\", \"`KOKORO_DOCKER_URL`\", \"none/local\", \"httpx/service specific\", \"no central retry found\", \"TTS error/degradation\"), |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 27,
+      "text": "| docs/intelligence/_generate_docs.py:395 | \"## LLM Integration Details\\nGroq chat builds chat-completion URLs from `settings.GROQ_BASE` in `voice_agent_backend/app/services/groq_service.py:25` and sends bearer auth from `se |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 32,
+      "text": "| docs/intelligence/_generate_docs.py:460 | (\"Groq\", \"GROQ_API_KEY\", \"route/service exception or health offline\", \"no central retry found\"), |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 34,
+      "text": "| voice_agent_backend/app/api/routes/models.py:22 | model_path = Path(settings.KOKORO_MODEL_PATH) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 35,
+      "text": "| voice_agent_backend/app/core/config.py:58 | OLLAMA_BASE: str = \"http://localhost:11434\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 36,
+      "text": "| voice_agent_backend/app/core/config.py:59 | QDRANT_BASE: str = \"http://localhost:6333\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 37,
+      "text": "| voice_agent_backend/app/core/config.py:60 | GROQ_BASE: str = \"https://api.groq.com/openai/v1\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 38,
+      "text": "| voice_agent_backend/app/core/config.py:61 | GROQ_API_KEY: str = \"\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 39,
+      "text": "| voice_agent_backend/app/core/config.py:89 | KOKORO_MODE: str = \"native\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 40,
+      "text": "| voice_agent_backend/app/core/config.py:91 | KOKORO_DOCKER_URL: str = \"http://127.0.0.1:8880\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 41,
+      "text": "| voice_agent_backend/app/core/config.py:93 | KOKORO_MODEL_PATH: str = \"../kokoro-v1.0.onnx\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 42,
+      "text": "| voice_agent_backend/app/core/config.py:95 | KOKORO_VOICES_PATH: str = \"../voices-v1.0.bin\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 43,
+      "text": "| voice_agent_backend/app/core/config.py:97 | KOKORO_LANG_CODE: str = \"a\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 46,
+      "text": "| voice_agent_backend/app/core/config.py:137 | @field_validator(\"KOKORO_MODEL_PATH\", \"KOKORO_VOICES_PATH\", mode=\"before\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 48,
+      "text": "| voice_agent_backend/app/main.py:60 | if getattr(settings, \"KOKORO_MODE\", \"native\") == \"native\": |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 49,
+      "text": "| voice_agent_backend/app/services/groq_service.py:25 | url = f\"{settings.GROQ_BASE}/chat/completions\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 50,
+      "text": "| voice_agent_backend/app/services/groq_service.py:27 | \"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\", |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 51,
+      "text": "| voice_agent_backend/app/services/groq_service.py:87 | url = f\"{settings.GROQ_BASE}/audio/transcriptions\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 52,
+      "text": "| voice_agent_backend/app/services/groq_service.py:89 | \"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\", |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 53,
+      "text": "| voice_agent_backend/app/services/groq_service.py:124 | url = f\"{settings.GROQ_BASE}/models\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 54,
+      "text": "| voice_agent_backend/app/services/groq_service.py:125 | headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"} |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 55,
+      "text": "| voice_agent_backend/app/services/groq_service.py:139 | url = f\"{settings.GROQ_BASE}/models\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 56,
+      "text": "| voice_agent_backend/app/services/groq_service.py:140 | headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"} |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 63,
+      "text": "| voice_agent_backend/app/services/ollama_service.py:14 | url = f\"{settings.OLLAMA_BASE}/api/embed\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 65,
+      "text": "| voice_agent_backend/app/services/ollama_service.py:60 | url = f\"{settings.OLLAMA_BASE}/v1/chat/completions\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 66,
+      "text": "| voice_agent_backend/app/services/ollama_service.py:110 | url = f\"{settings.OLLAMA_BASE}/api/tags\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 67,
+      "text": "| voice_agent_backend/app/services/ollama_service.py:123 | url = f\"{settings.OLLAMA_BASE}/api/tags\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 68,
+      "text": "| voice_agent_backend/app/services/qdrant_service.py:14 | url = f\"{settings.QDRANT_BASE}{path}\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 70,
+      "text": "| voice_agent_backend/app/services/qdrant_service.py:29 | url = f\"{settings.QDRANT_BASE}{path}\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 72,
+      "text": "| voice_agent_backend/app/services/qdrant_service.py:44 | url = f\"{settings.QDRANT_BASE}{path}\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 74,
+      "text": "| voice_agent_backend/app/services/qdrant_service.py:59 | url = f\"{settings.QDRANT_BASE}{path}\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 76,
+      "text": "| voice_agent_backend/app/services/qdrant_service.py:237 | url = f\"{settings.QDRANT_BASE}/collections\" |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 77,
+      "text": "| voice_agent_backend/app/services/speech_service.py:170 | model_path = getattr(settings, \"KOKORO_MODEL_PATH\", \"../kokoro-v1.0.onnx\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 78,
+      "text": "| voice_agent_backend/app/services/speech_service.py:171 | voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"../voices-v1.0.bin\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 79,
+      "text": "| voice_agent_backend/app/services/speech_service.py:245 | voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"../voices-v1.0.bin\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 80,
+      "text": "| voice_agent_backend/app/services/speech_service.py:302 | kokoro_mode = getattr(settings, \"KOKORO_MODE\", \"native\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 81,
+      "text": "| voice_agent_backend/app/services/speech_service.py:355 | docker_url = getattr(settings, \"KOKORO_DOCKER_URL\", \"http://localhost:8880\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 82,
+      "text": "| voice_agent_backend/app/services/speech_service.py:373 | docker_url = getattr(settings, \"KOKORO_DOCKER_URL\", \"http://localhost:8880\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 83,
+      "text": "| voice_agent_backend/app/services/speech_service.py:407 | groq_api_key = settings.GROQ_API_KEY |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 84,
+      "text": "| voice_agent_backend/app/services/speech_service.py:408 | groq_base = settings.GROQ_BASE |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 103,
+      "text": "| voice_agent_backend/HANDOFF_README.md:40 | GROQ_API_KEY=[REDACTED example value] |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 104,
+      "text": "| voice_agent_backend/HANDOFF_README.md:90 | \u251c\u2500\u2500 .env                    \u2190 YOUR CONFIG (edit GROQ_API_KEY here) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 105,
+      "text": "| voice_agent_backend/HANDOFF_README.md:135 | \\| GROQ_API_KEY \\| (empty) \\| **REQUIRED** \u2014 Get from console.groq.com \\| |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 106,
+      "text": "| voice_agent_backend/HANDOFF_README.md:136 | \\| GROQ_BASE \\| https://api.groq.com/openai/v1 \\| Groq API base URL \\| |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 107,
+      "text": "| voice_agent_backend/HANDOFF_README.md:139 | \\| OLLAMA_BASE \\| http://localhost:11434 \\| Ollama URL (only if using Ollama) \\| |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 108,
+      "text": "| voice_agent_backend/HANDOFF_README.md:141 | \\| QDRANT_BASE \\| http://localhost:6333 \\| Qdrant URL \\| |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 109,
+      "text": "| voice_agent_backend/HANDOFF_README.md:144 | \\| KOKORO_MODE \\| disabled \\| TTS: \"disabled\", \"native\", or \"docker\" \\| |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 111,
+      "text": "| voice_agent_backend/HANDOFF_README.md:162 | 5. **[HIGH] `requirements.txt` included `kokoro`** \u2014 Kokoro TTS library is hard to install and only needed if `KOKORO_MODE=native`. Made optional (commented out). `KOKORO_MODE=disa |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 113,
+      "text": "| voice_agent_backend/HANDOFF_README.md:221 | \u2192 Edit `.env` and set a real `GROQ_API_KEY` |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 117,
+      "text": "| voice_agent_backend/plan.md:427 | `app/services/ollama_service.py`: Single function `generate_embedding(text, model) -> list[float]` that calls `POST {OLLAMA_BASE}/api/embed` via httpx. |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 118,
+      "text": "| voice_agent_backend/plan.md:451 | base_url=settings.OLLAMA_BASE, |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 119,
+      "text": "| voice_agent_backend/plan.md:543 | self._client = QdrantClient(url=settings.QDRANT_BASE) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 120,
+      "text": "| voice_agent_backend/plan.md:683 | groq_api_key=settings.GROQ_API_KEY, |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 121,
+      "text": "| voice_agent_backend/plan.md:689 | groq_api_key=settings.GROQ_API_KEY, |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 122,
+      "text": "| voice_agent_backend/plan.md:695 | groq_api_key=settings.GROQ_API_KEY, |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 123,
+      "text": "| voice_agent_backend/requirements.txt:21 | # \u2500\u2500 Optional: Kokoro TTS (only needed if KOKORO_MODE=native or docker) \u2500\u2500 |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 125,
+      "text": "| voice_agent_backend/scripts/check_backend_health.py:16 | print(f\"Ollama ({settings.OLLAMA_BASE}): \", end=\"\", flush=True) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 126,
+      "text": "| voice_agent_backend/scripts/check_backend_health.py:20 | print(f\"Qdrant ({settings.QDRANT_BASE}): \", end=\"\", flush=True) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 127,
+      "text": "| voice_agent_backend/scripts/check_backend_health.py:24 | print(f\"Groq ({settings.GROQ_BASE}):   \", end=\"\", flush=True) |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 129,
+      "text": "| voice_agent_backend/scripts/verify_kokoro.py:13 | model_path = getattr(settings, \"KOKORO_MODEL_PATH\", \"../kokoro-v1.0.onnx\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 130,
+      "text": "| voice_agent_backend/scripts/verify_kokoro.py:14 | voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"voices.bin\") |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 132,
+      "text": "| voice_agent_backend/sop(voice_agent).md:35 | GROQ_API_KEY=[REDACTED example value] |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 135,
+      "text": "Groq chat builds chat-completion URLs from `settings.GROQ_BASE` in `voice_agent_backend/app/services/groq_service.py:25` and sends bearer auth from `settings.GROQ_API_KEY` in `voice_agent_backend/app/services/groq_service.py:27`. Streaming "
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 144,
+      "text": "No S3/GCS/Azure storage integration was discovered. User uploads are parsed in memory and represented as Qdrant vector payloads. Model files `kokoro-v1.0.onnx` and `voices-v1.0.bin` are local runtime assets referenced by settings."
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 152,
+      "text": "| OLLAMA_BASE | voice_agent_backend/app/core/config.py:58 | docs/intelligence/_generate_docs.py:388, voice_agent_backend/app/services/ollama_service.py:14, voice_agent_backend/app/services/ollama_service.py:60, voice_agent_backend/app/servi"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 153,
+      "text": "| QDRANT_BASE | voice_agent_backend/app/core/config.py:59 | docs/intelligence/_generate_docs.py:389, voice_agent_backend/app/services/qdrant_service.py:14, voice_agent_backend/app/services/qdrant_service.py:29, voice_agent_backend/app/servi"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 154,
+      "text": "| GROQ_BASE | voice_agent_backend/app/core/config.py:60 | docs/intelligence/_generate_docs.py:387, docs/intelligence/_generate_docs.py:395, voice_agent_backend/app/services/groq_service.py:25, voice_agent_backend/app/services/groq_service.p"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 155,
+      "text": "| GROQ_API_KEY | voice_agent_backend/app/core/config.py:61 | docs/intelligence/_generate_docs.py:395, voice_agent_backend/app/services/groq_service.py:27, voice_agent_backend/app/services/groq_service.py:89, voice_agent_backend/app/services"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 171,
+      "text": "| KOKORO_MODE | voice_agent_backend/app/core/config.py:89 | no direct use found | \"native\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 172,
+      "text": "| KOKORO_DOCKER_URL | voice_agent_backend/app/core/config.py:91 | no direct use found | \"http://127.0.0.1:8880\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 173,
+      "text": "| KOKORO_MODEL_PATH | voice_agent_backend/app/core/config.py:93 | voice_agent_backend/app/api/routes/models.py:22 | \"../kokoro-v1.0.onnx\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 174,
+      "text": "| KOKORO_VOICES_PATH | voice_agent_backend/app/core/config.py:95 | no direct use found | \"../voices-v1.0.bin\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 175,
+      "text": "| KOKORO_LANG_CODE | voice_agent_backend/app/core/config.py:97 | no direct use found | \"a\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 187,
+      "text": "| CORS_ORIGINS | voice_agent_backend/app/core/config.py:120 | no direct use found | [\"http://localhost:8000\", \"http://127.0.0.1:8000\"] | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 188,
+      "text": "| ALLOWED_HOSTS | voice_agent_backend/app/core/config.py:121 | no direct use found | [\"localhost\", \"127.0.0.1\"] | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 189,
+      "text": "| SECRET_KEY | voice_agent_backend/app/core/config.py:124 | voice_agent_backend/app/core/auth.py:35, voice_agent_backend/app/core/auth.py:57 | [REDACTED fallback secret default] | high |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 194,
+      "text": "| HOST | voice_agent_backend/app/core/config.py:148 | no direct use found | \"0.0.0.0\" | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA5_INTEGRATIONS.md",
+      "line": 195,
+      "text": "| PORT | voice_agent_backend/app/core/config.py:149 | no direct use found | 8000 | feature dependent |"
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 61,
+      "text": "| R-003 | HIGH | Secrets | voice_agent_backend/app/core/config.py:124 | A fallback JWT secret lets the app start insecurely if production env omits SECRET_KEY. | Fail startup when SECRET_KEY is default outside local dev. |"
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 88,
+      "text": "- `docs/intelligence/_generate_docs.py:388`: (\"Ollama\", \"`settings.OLLAMA_BASE`, default `http://localhost:11434`\", \"none/local\", \"httpx call-level/shared client\", \"no central retry found\", \"empty model list/offline health/er"
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 90,
+      "text": "- `docs/intelligence/_generate_docs.py:389`: (\"Qdrant\", \"`settings.QDRANT_BASE`, default `http://localhost:6333`\", \"none observed\", \"10-30 second helper timeouts\", \"no central retry found\", \"empty dict/results or route error\""
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 92,
+      "text": "- `docs/intelligence/_generate_docs.py:390`: (\"Kokoro native ONNX\", \"`KOKORO_MODEL_PATH`, `KOKORO_VOICES_PATH`\", \"local file assets\", \"startup/runtime load time\", \"fallback depends on mode\", \"TTS warning/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA6_SECURITY_QUALITY.md",
+      "line": 94,
+      "text": "- `docs/intelligence/_generate_docs.py:391`: (\"Kokoro Docker sidecar\", \"`KOKORO_DOCKER_URL`\", \"none/local\", \"httpx/service specific\", \"no central retry found\", \"TTS error/degradation\"),"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 265,
+      "text": "| OLLAMA_BASE | voice_agent_backend/app/core/config.py:58 | docs/intelligence/_generate_docs.py:388, voice_agent_backend/app/services/ollama_service.py:14, voice_agent_backend/app/services/ollama_service.py:60, voice_agent_backend/app/servi"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 266,
+      "text": "| QDRANT_BASE | voice_agent_backend/app/core/config.py:59 | docs/intelligence/_generate_docs.py:389, voice_agent_backend/app/services/qdrant_service.py:14, voice_agent_backend/app/services/qdrant_service.py:29, voice_agent_backend/app/servi"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 267,
+      "text": "| GROQ_BASE | voice_agent_backend/app/core/config.py:60 | docs/intelligence/_generate_docs.py:387, docs/intelligence/_generate_docs.py:395, voice_agent_backend/app/services/groq_service.py:25, voice_agent_backend/app/services/groq_service.p"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 268,
+      "text": "| GROQ_API_KEY | voice_agent_backend/app/core/config.py:61 | docs/intelligence/_generate_docs.py:395, voice_agent_backend/app/services/groq_service.py:27, voice_agent_backend/app/services/groq_service.py:89, voice_agent_backend/app/services"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 284,
+      "text": "| KOKORO_MODE | voice_agent_backend/app/core/config.py:89 | no direct settings usage found | defaulted/feature-specific | \"native\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 285,
+      "text": "| KOKORO_DOCKER_URL | voice_agent_backend/app/core/config.py:91 | no direct settings usage found | defaulted/feature-specific | \"http://127.0.0.1:8880\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 286,
+      "text": "| KOKORO_MODEL_PATH | voice_agent_backend/app/core/config.py:93 | voice_agent_backend/app/api/routes/models.py:22 | defaulted/feature-specific | \"../kokoro-v1.0.onnx\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 287,
+      "text": "| KOKORO_VOICES_PATH | voice_agent_backend/app/core/config.py:95 | no direct settings usage found | defaulted/feature-specific | \"../voices-v1.0.bin\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 288,
+      "text": "| KOKORO_LANG_CODE | voice_agent_backend/app/core/config.py:97 | no direct settings usage found | defaulted/feature-specific | \"a\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 300,
+      "text": "| CORS_ORIGINS | voice_agent_backend/app/core/config.py:120 | no direct settings usage found | defaulted/feature-specific | [\"http://localhost:8000\", \"http://127.0.0.1:8000\"] |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 301,
+      "text": "| ALLOWED_HOSTS | voice_agent_backend/app/core/config.py:121 | no direct settings usage found | defaulted/feature-specific | [\"localhost\", \"127.0.0.1\"] |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 302,
+      "text": "| SECRET_KEY | voice_agent_backend/app/core/config.py:124 | voice_agent_backend/app/core/auth.py:35, voice_agent_backend/app/core/auth.py:57 | required for provider/security | [REDACTED fallback secret default] |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 307,
+      "text": "| HOST | voice_agent_backend/app/core/config.py:148 | no direct settings usage found | defaulted/feature-specific | \"0.0.0.0\" |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 308,
+      "text": "| PORT | voice_agent_backend/app/core/config.py:149 | no direct settings usage found | defaulted/feature-specific | 8000 |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 319,
+      "text": "| Groq | GROQ_API_KEY | route/service exception or health offline | no central retry found |"
+    },
+    {
+      "path": "docs/intelligence/SA7_KNOWLEDGE_GRAPH.md",
+      "line": 330,
+      "text": "| R-003 | voice_agent_backend/app/core/config.py:124 | HIGH | A fallback JWT secret lets the app start insecurely if production env omits SECRET_KEY. | Fail startup when SECRET_KEY is default outside local dev. |"
+    },
+    {
+      "path": "docs/intelligence/SA7_MASTER_BRIEF.md",
+      "line": 145,
+      "text": "| R-003 | HIGH | Secrets | voice_agent_backend/app/core/config.py:124 | A fallback JWT secret lets the app start insecurely if production env omits SECRET_KEY. | Fail startup when SECRET_KEY is default outside local dev. |"
+    },
+    {
+      "path": "docs/operations/PRODUCTIONIZATION_PLAN.md",
+      "line": 20,
+      "text": "- `voice_agent_backend/app/core/config.py`: add `APP_ENV` and `DATABASE_URL`, reject fallback secret outside local/dev/test."
+    },
+    {
+      "path": "docs/operations/PRODUCTIONIZATION_PLAN.md",
+      "line": 48,
+      "text": "- Production `APP_ENV` rejects fallback/blank `SECRET_KEY`."
+    },
+    {
+      "path": "docs/operations/PRODUCTIONIZATION_SUMMARY.md",
+      "line": 14,
+      "text": "- Added `APP_ENV` and optional `DATABASE_URL`; production mode rejects the fallback JWT secret."
+    },
+    {
+      "path": "docs/operations/RESTRUCTURE_SUMMARY.md",
+      "line": 73,
+      "text": "- `voice_agent_backend/.env`: only `KOKORO_MODEL_PATH` and `KOKORO_VOICES_PATH` were updated without reading or printing file contents."
+    },
+    {
+      "path": "docs/operations/RESTRUCTURE_SUMMARY.md",
+      "line": 91,
+      "text": "- Internal import smoke: PASS (`ALL 20 IMPORTS PASSED`)"
+    },
+    {
+      "path": "docs/operations/VERIFICATION_MATRIX.md",
+      "line": 16,
+      "text": "| Import smoke | `cd voice_agent_backend; python scripts/checks/import_smoke.py` | PASS | `ALL 20 IMPORTS PASSED`. |"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 143,
+      "text": "session_id: str = Field(..., min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 144,
+      "text": "message: str = Field(..., min_length=1, max_length=4000)"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 145,
+      "text": "collection: str = Field(..., min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 146,
+      "text": "language: str = Field(..., min_length=2, max_length=3, pattern=r'^[a-z]{2,3}$')"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 149,
+      "text": "name: str = Field(..., min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 427,
+      "text": "`app/services/ollama_service.py`: Single function `generate_embedding(text, model) -> list[float]` that calls `POST {OLLAMA_BASE}/api/embed` via httpx."
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 450,
+      "text": "model=settings.EMBED_MODEL,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 451,
+      "text": "base_url=settings.OLLAMA_BASE,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 479,
+      "text": "embedding = await generate_embedding(chunk['text'], settings.EMBED_MODEL)"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 543,
+      "text": "self._client = QdrantClient(url=settings.QDRANT_BASE)"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 680,
+      "text": "model=settings.CHAT_MODEL,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 683,
+      "text": "groq_api_key=settings.GROQ_API_KEY,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 686,
+      "text": "model=settings.TRANSLATION_MODEL,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 689,
+      "text": "groq_api_key=settings.GROQ_API_KEY,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 695,
+      "text": "groq_api_key=settings.GROQ_API_KEY,"
+    },
+    {
+      "path": "docs/specs/langchain_langgraph_migration_plan.md",
+      "line": 1100,
+      "text": "checkpointer = AsyncPostgresSaver.from_conn_string(DATABASE_URL)"
+    },
+    {
+      "path": "voice_agent_backend/requirements.txt",
+      "line": 21,
+      "text": "# \u2500\u2500 Optional: Kokoro TTS (only needed if KOKORO_MODE=native or docker) \u2500\u2500"
+    },
+    {
+      "path": "voice_agent_backend/app/main.py",
+      "line": 51,
+      "text": "loop.set_default_executor(ThreadPoolExecutor(max_workers=settings.IO_THREAD_POOL_SIZE))"
+    },
+    {
+      "path": "voice_agent_backend/app/main.py",
+      "line": 52,
+      "text": "logger.info(f\"Asynchronous IO loop optimized for hardware: {settings.IO_THREAD_POOL_SIZE} workers.\")"
+    },
+    {
+      "path": "voice_agent_backend/app/main.py",
+      "line": 60,
+      "text": "if getattr(settings, \"KOKORO_MODE\", \"native\") == \"native\":"
+    },
+    {
+      "path": "voice_agent_backend/app/main.py",
+      "line": 96,
+      "text": "allow_origins=settings.CORS_ORIGINS,"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 234,
+      "text": "messages.extend(history[-settings.MEMORY_PAIRS * 2 :])"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 238,
+      "text": "chat_model = req.chat_model or settings.CHAT_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 239,
+      "text": "chat_provider = req.chat_provider or settings.CHAT_PROVIDER"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 337,
+      "text": "if (now - last_at) < settings.BACKCHANNEL_COOLDOWN_SECONDS:"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 395,
+      "text": "\"chat_model\": req.chat_model or settings.CHAT_MODEL,"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 396,
+      "text": "\"chat_provider\": req.chat_provider or settings.CHAT_PROVIDER,"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 397,
+      "text": "\"embed_model\": req.embed_model or settings.EMBED_MODEL,"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/chat.py",
+      "line": 424,
+      "text": "if (now - last_at) < settings.BACKCHANNEL_COOLDOWN_SECONDS:"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/collections.py",
+      "line": 34,
+      "text": "embed_model = req.embed_model or settings.EMBED_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 23,
+      "text": "CHUNK_SIZE = settings.CHUNK_SIZE"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 24,
+      "text": "CHUNK_OVERLAP = settings.CHUNK_OVERLAP"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 369,
+      "text": "active_embed_model = embed_model or settings.EMBED_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 374,
+      "text": "active_embed_model = embed_model or settings.EMBED_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 378,
+      "text": "batch_size = settings.GPU_BATCH_SIZE"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 436,
+      "text": "if len(file_content) > settings.MAX_FILE_SIZE:"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/ingest.py",
+      "line": 439,
+      "text": "detail=f\"File too large. Max size is {settings.MAX_FILE_SIZE // (1024 * 1024)}MB\","
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/models.py",
+      "line": 22,
+      "text": "model_path = Path(settings.KOKORO_MODEL_PATH)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 12,
+      "text": "text: str = Field(..., min_length=1, max_length=4000)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 13,
+      "text": "voice: str = Field(\"af_heart\", min_length=1, max_length=64)"
+    },
+    {
+      "path": "voice_agent_backend/app/api/routes/tts.py",
+      "line": 14,
+      "text": "speed: float = Field(1.0, ge=0.5, le=2.0)"
+    },
+    {
+      "path": "voice_agent_backend/app/core/auth.py",
+      "line": 31,
+      "text": "minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES"
+    },
+    {
+      "path": "voice_agent_backend/app/core/auth.py",
+      "line": 35,
+      "text": "to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM"
+    },
+    {
+      "path": "voice_agent_backend/app/core/auth.py",
+      "line": 57,
+      "text": "token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 61,
+      "text": "OLLAMA_BASE: str = \"http://localhost:11434\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 62,
+      "text": "QDRANT_BASE: str = \"http://localhost:6333\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 63,
+      "text": "GROQ_BASE: str = \"https://api.groq.com/openai/v1\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 64,
+      "text": "GROQ_API_KEY: str = \"\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 92,
+      "text": "KOKORO_MODE: str = \"native\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 94,
+      "text": "KOKORO_DOCKER_URL: str = \"http://127.0.0.1:8880\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 96,
+      "text": "KOKORO_MODEL_PATH: str = \"data/models/kokoro-v1.0.onnx\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 98,
+      "text": "KOKORO_VOICES_PATH: str = \"data/models/voices-v1.0.bin\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 100,
+      "text": "KOKORO_LANG_CODE: str = \"a\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 123,
+      "text": "CORS_ORIGINS: List[str] = [\"http://localhost:8000\", \"http://127.0.0.1:8000\"]"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 124,
+      "text": "ALLOWED_HOSTS: List[str] = [\"localhost\", \"127.0.0.1\"]"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 127,
+      "text": "SECRET_KEY: str = \"fallback_secret_key_change_me_in_production\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 132,
+      "text": "DATABASE_URL: Optional[str] = None"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 134,
+      "text": "@field_validator(\"SECRET_KEY\")"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 138,
+      "text": "raise ValueError(\"SECRET_KEY must be set\")"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 144,
+      "text": "raise ValueError(\"SECRET_KEY must be changed outside local/test environments\")"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 147,
+      "text": "@field_validator(\"KOKORO_MODEL_PATH\", \"KOKORO_VOICES_PATH\", mode=\"before\")"
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 158,
+      "text": "HOST: str = \"0.0.0.0\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/config.py",
+      "line": 159,
+      "text": "PORT: int = 8000"
+    },
+    {
+      "path": "voice_agent_backend/app/core/database.py",
+      "line": 10,
+      "text": "DATABASE_URL = settings.DATABASE_URL or f\"sqlite+aiosqlite:///{_DB_PATH}\""
+    },
+    {
+      "path": "voice_agent_backend/app/core/database.py",
+      "line": 12,
+      "text": "engine = create_async_engine(DATABASE_URL, echo=False)"
+    },
+    {
+      "path": "voice_agent_backend/app/core/database.py",
+      "line": 16,
+      "text": "if DATABASE_URL.startswith(\"sqlite\"):"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 205,
+      "text": "floor = settings.SUMMARY_CONFIDENCE_FLOOR if is_summary else settings.RETRIEVAL_CONFIDENCE_FLOOR"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 308,
+      "text": "fetch_k = settings.SUMMARY_TOP_K if is_summary else settings.RETRIEVAL_TOP_K"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 309,
+      "text": "score_threshold = settings.SCORE_THRESHOLD * (0.5 ** retry_count)  # Lower on retry"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 314,
+      "text": "active_embed_model = embed_model or settings.EMBED_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 354,
+      "text": "top_n = settings.RERANK_TOP_N"
+    },
+    {
+      "path": "voice_agent_backend/app/core/langchain_rag.py",
+      "line": 357,
+      "text": "final = diversify_for_summary(reranked, settings.SUMMARY_TOP_K)"
+    },
+    {
+      "path": "voice_agent_backend/app/core/limiter.py",
+      "line": 7,
+      "text": "enabled=settings.ENABLE_RATE_LIMIT,"
+    },
+    {
+      "path": "voice_agent_backend/app/core/translation.py",
+      "line": 19,
+      "text": "model=settings.TRANSLATION_MODEL,"
+    },
+    {
+      "path": "voice_agent_backend/app/core/translation.py",
+      "line": 20,
+      "text": "provider=settings.TRANSLATION_PROVIDER,"
+    },
+    {
+      "path": "voice_agent_backend/app/core/translation.py",
+      "line": 45,
+      "text": "model=settings.TRANSLATION_MODEL,"
+    },
+    {
+      "path": "voice_agent_backend/app/core/translation.py",
+      "line": 46,
+      "text": "provider=settings.TRANSLATION_PROVIDER,"
+    },
+    {
+      "path": "voice_agent_backend/app/core/nodes/generate_response.py",
+      "line": 140,
+      "text": "chat_model = state.get(\"chat_model\") or settings.CHAT_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/core/nodes/generate_response.py",
+      "line": 141,
+      "text": "chat_provider = state.get(\"chat_provider\") or settings.CHAT_PROVIDER"
+    },
+    {
+      "path": "voice_agent_backend/app/core/nodes/handle_early_exit.py",
+      "line": 89,
+      "text": "chat_model = state.get(\"chat_model\") or settings.CHAT_MODEL"
+    },
+    {
+      "path": "voice_agent_backend/app/core/nodes/handle_early_exit.py",
+      "line": 90,
+      "text": "chat_provider = state.get(\"chat_provider\") or settings.CHAT_PROVIDER"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 6,
+      "text": "session_id: str = Field(..., min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 7,
+      "text": "message: str = Field(..., min_length=1, max_length=4000)"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 8,
+      "text": "collection: str = Field(\"agent_knowledge\", min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 9,
+      "text": "language: str = Field(\"en\", min_length=2, max_length=3, pattern=r'^[a-z]{2,3}$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 22,
+      "text": "name: str = Field(..., min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 23,
+      "text": "embed_model: Optional[str] = Field(None, max_length=128)"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 43,
+      "text": "session_id: Optional[str] = Field(None, min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 44,
+      "text": "message: str = Field(..., min_length=1, max_length=4000)"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 45,
+      "text": "collection: str = Field(\"agent_knowledge\", min_length=1, max_length=128, pattern=r'^[a-zA-Z0-9_-]+$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 46,
+      "text": "language: str = Field(\"en\", min_length=2, max_length=3, pattern=r'^[a-z]{2,3}$')"
+    },
+    {
+      "path": "voice_agent_backend/app/models/schemas.py",
+      "line": 63,
+      "text": "new_query: Optional[str] = Field(None, max_length=4000)"
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 25,
+      "text": "url = f\"{settings.GROQ_BASE}/chat/completions\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 27,
+      "text": "\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\","
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 87,
+      "text": "url = f\"{settings.GROQ_BASE}/audio/transcriptions\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 89,
+      "text": "\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\","
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 124,
+      "text": "url = f\"{settings.GROQ_BASE}/models\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 125,
+      "text": "headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"}"
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 139,
+      "text": "url = f\"{settings.GROQ_BASE}/models\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/groq_service.py",
+      "line": 140,
+      "text": "headers = {\"Authorization\": f\"Bearer {settings.GROQ_API_KEY}\"}"
+    },
+    {
+      "path": "voice_agent_backend/app/services/ollama_service.py",
+      "line": 14,
+      "text": "url = f\"{settings.OLLAMA_BASE}/api/embed\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/ollama_service.py",
+      "line": 60,
+      "text": "url = f\"{settings.OLLAMA_BASE}/v1/chat/completions\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/ollama_service.py",
+      "line": 110,
+      "text": "url = f\"{settings.OLLAMA_BASE}/api/tags\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/ollama_service.py",
+      "line": 123,
+      "text": "url = f\"{settings.OLLAMA_BASE}/api/tags\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/qdrant_service.py",
+      "line": 37,
+      "text": "url = f\"{settings.QDRANT_BASE}{path}\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/qdrant_service.py",
+      "line": 52,
+      "text": "url = f\"{settings.QDRANT_BASE}{path}\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/qdrant_service.py",
+      "line": 67,
+      "text": "url = f\"{settings.QDRANT_BASE}{path}\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/qdrant_service.py",
+      "line": 82,
+      "text": "url = f\"{settings.QDRANT_BASE}{path}\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/qdrant_service.py",
+      "line": 264,
+      "text": "url = f\"{settings.QDRANT_BASE}/collections\""
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 170,
+      "text": "model_path = getattr(settings, \"KOKORO_MODEL_PATH\", \"data/models/kokoro-v1.0.onnx\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 171,
+      "text": "voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"data/models/voices-v1.0.bin\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 198,
+      "text": "sess_options.intra_op_num_threads = settings.ONNX_INTRA_OP_THREADS"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 199,
+      "text": "sess_options.inter_op_num_threads = settings.ONNX_INTER_OP_THREADS"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 245,
+      "text": "voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"data/models/voices-v1.0.bin\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 302,
+      "text": "kokoro_mode = getattr(settings, \"KOKORO_MODE\", \"native\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 355,
+      "text": "docker_url = getattr(settings, \"KOKORO_DOCKER_URL\", \"http://localhost:8880\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 373,
+      "text": "docker_url = getattr(settings, \"KOKORO_DOCKER_URL\", \"http://localhost:8880\")"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 407,
+      "text": "groq_api_key = settings.GROQ_API_KEY"
+    },
+    {
+      "path": "voice_agent_backend/app/services/speech_service.py",
+      "line": 408,
+      "text": "groq_base = settings.GROQ_BASE"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/check_backend_health.py",
+      "line": 22,
+      "text": "print(f\"Ollama ({settings.OLLAMA_BASE}): \", end=\"\", flush=True)"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/check_backend_health.py",
+      "line": 26,
+      "text": "print(f\"Qdrant ({settings.QDRANT_BASE}): \", end=\"\", flush=True)"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/check_backend_health.py",
+      "line": 30,
+      "text": "print(f\"Groq ({settings.GROQ_BASE}):   \", end=\"\", flush=True)"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/import_smoke.py",
+      "line": 11,
+      "text": "# Pre-set SECRET_KEY so Settings() doesn't fail when .env isn't auto-discovered"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/import_smoke.py",
+      "line": 12,
+      "text": "os.environ.setdefault(\"SECRET_KEY\", \"test_secret_key_min_32_chars_long_for_testing!!\")"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/import_smoke.py",
+      "line": 76,
+      "text": "print(f\"ALL {total} IMPORTS PASSED\")"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/verify_kokoro.py",
+      "line": 19,
+      "text": "model_path = getattr(settings, \"KOKORO_MODEL_PATH\", \"data/models/kokoro-v1.0.onnx\")"
+    },
+    {
+      "path": "voice_agent_backend/scripts/checks/verify_kokoro.py",
+      "line": 20,
+      "text": "voices_path = getattr(settings, \"KOKORO_VOICES_PATH\", \"data/models/voices-v1.0.bin\")"
+    },
+    {
+      "path": "voice_agent_backend/scripts/manual_tests/chunking_smoke.py",
+      "line": 29,
+      "text": "raw_pieces = recursive_split_inner(text, settings.CHUNK_SIZE, separators)"
+    },
+    {
+      "path": "voice_agent_backend/scripts/manual_tests/chunking_smoke.py",
+      "line": 35,
+      "text": "if len(current) + len(t) + 1 <= settings.CHUNK_SIZE:"
+    },
+    {
+      "path": "voice_agent_backend/scripts/manual_tests/chunking_smoke.py",
+      "line": 45,
+      "text": "tail = merged[j - 1][-settings.CHUNK_OVERLAP:]"
+    },
+    {
+      "path": "voice_agent_backend/tests/backend/test_auth_and_protection.py",
+      "line": 162,
+      "text": "SECRET_KEY=\"fallback_secret_key_change_me_in_production\","
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "voice_agent_backend/frontend/index.html",
+      "line": 378,
+      "text": "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js\"></script>"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 70,
+      "text": "try { return localStorage.getItem(CONFIG.STORAGE_PREFIX + this.tokenKey) || ''; } catch (e) { return ''; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 73,
+      "text": "try { return localStorage.getItem(CONFIG.STORAGE_PREFIX + this.emailKey) || ''; } catch (e) { return ''; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 77,
+      "text": "localStorage.setItem(CONFIG.STORAGE_PREFIX + this.tokenKey, token);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 78,
+      "text": "if (email) localStorage.setItem(CONFIG.STORAGE_PREFIX + this.emailKey, email);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 84,
+      "text": "localStorage.removeItem(CONFIG.STORAGE_PREFIX + this.tokenKey);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 85,
+      "text": "localStorage.removeItem(CONFIG.STORAGE_PREFIX + this.emailKey);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 91,
+      "text": "return token ? { Authorization: 'Bearer ' + token } : {};"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 114,
+      "text": "return fetch(url, Object.assign({}, options, { headers: headers })).then(function (resp) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 166,
+      "text": "request = fetch('/auth/register', {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 175,
+      "text": "request = fetch('/auth/login', {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 470,
+      "text": "fetch('/chat/stream', {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 533,
+      "text": "var safeHtml = renderMarkdownSafe(STATE.llm.currentResponse);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 560,
+      "text": "updateAgentMessage(agentMsgId, renderMarkdownSafe(data.translated), false);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 601,
+      "text": "fetch('/chat/interrupt/' + this.activeThreadId, {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 640,
+      "text": "container.innerHTML = '<div class=\"pipeline-progress-track\"><div id=\"pipeline-progress-bar\" class=\"pipeline-progress-bar\"></div></div><span id=\"pipeline-stage-label\" class=\"pipeline-stage-label\"></span>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 745,
+      "text": "function escapeHtml(text) { var d = document.createElement('div'); d.textContent = text; return d.innerHTML; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 754,
+      "text": "return fetch(url, merged).then(function (resp) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 768,
+      "text": "function saveToStorage(key, value) { try { localStorage.setItem(CONFIG.STORAGE_PREFIX + key, JSON.stringify(value)); } catch (e) { console.warn('Storage write failed:', e); } }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 769,
+      "text": "function loadFromStorage(key, defaultValue) { try { var raw = localStorage.getItem(CONFIG.STORAGE_PREFIX + key); return raw ? JSON.parse(raw) : defaultValue; } catch (e) { return defaultValue; } }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 770,
+      "text": "function removeFromStorage(key) { try { localStorage.removeItem(CONFIG.STORAGE_PREFIX + key); } catch (e) { console.warn('Storage remove failed:', e); } }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 870,
+      "text": "DOM.messageList.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1270,
+      "text": "el.innerHTML = '<span class=\"toast-icon\">' + (icons[type] || '\\u2139') + '</span><span>' + escapeHtml(message) + '</span>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1319,
+      "text": "if (role === 'agent') el.innerHTML = '<div class=\"msg-content\">' + renderMarkdownSafe(content) + '</div>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1320,
+      "text": "else if (role === 'user') el.innerHTML = '<div class=\"msg-content\">' + escapeHtml(content) + '</div>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1327,
+      "text": "el.innerHTML = '<div class=\"msg-content\"><span class=\"streaming-cursor\"></span></div>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1334,
+      "text": "content.innerHTML = isFinal ? html : html + '<span class=\"streaming-cursor\"></span>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1344,
+      "text": "function renderMarkdownSafe(text) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1345,
+      "text": "if (typeof marked !== 'undefined' && marked.parse) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1347,
+      "text": "var html = marked.parse(text);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1348,
+      "text": "if (typeof DOMPurify !== 'undefined' && DOMPurify.sanitize) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1349,
+      "text": "return DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1468,
+      "text": "fetch('/chat/backchannel/' + getOrCreateSessionId(), { method: 'POST' })"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1486,
+      "text": "fetch('/chat/predict', {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1564,
+      "text": "fetch('/stt', { method: 'POST', body: formData }).then(function (r) { if (!r.ok) throw new Error('STT error ' + r.status); return r.json(); }).then(function (data) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1689,
+      "text": "DOM.ttsVoiceSelect.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1802,
+      "text": "updateAgentMessage(agentMsgId, renderMarkdownSafe(fullText), false);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1820,
+      "text": "updateAgentMessage(agentMsgId, renderMarkdownSafe(finalText), true);"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1861,
+      "text": "fetch('/chat', {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1968,
+      "text": "if (!docs.length) { DOM.documentList.innerHTML = '<p class=\"empty-state\">No documents uploaded yet.</p>'; return; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1969,
+      "text": "DOM.documentList.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 1974,
+      "text": "card.innerHTML = '<div class=\"doc-icon\">' + ext + '</div><div class=\"doc-info\"><div class=\"doc-name\" title=\"' + escapeHtml(doc.filename) + '\">' + escapeHtml(doc.filename) + '</div><div class=\"doc-meta\">' + doc.chunks + ' chunks \\xB7 ' + dat"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2007,
+      "text": "if (!sessions.length) { DOM.historyList.innerHTML = '<p class=\"empty-state\">No past conversations yet.</p>'; return; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2008,
+      "text": "DOM.historyList.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2014,
+      "text": "card.innerHTML = '<div class=\"doc-icon\">\\uD83D\\uDD52</div><div class=\"doc-info\" style=\"cursor:pointer;\"><div class=\"doc-name\">' + escapeHtml(titlePreview) + '</div><div class=\"doc-meta\">' + msgCount + ' messages \\xB7 ' + date + '</div></div"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2048,
+      "text": "if (DOM.messageList) DOM.messageList.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2122,
+      "text": "if (!keys.length) { DOM.pronunciationList.innerHTML = '<p class=\"empty-state\" style=\"font-size:12px\">No custom pronunciations.</p>'; return; }"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2123,
+      "text": "DOM.pronunciationList.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2126,
+      "text": "entry.innerHTML = '<span class=\"pron-word\">' + escapeHtml(word) + '</span><span class=\"pron-arrow\">\\u2192</span><span class=\"pron-replacement\">' + escapeHtml(prons[word]) + '</span><button class=\"pron-delete\" data-word=\"' + escapeHtml(word)"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2144,
+      "text": "return fetch('/models').then(function (r) { if (!r.ok) throw new Error('Models error'); return r.json(); }).then(function (data) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2147,
+      "text": "DOM.chatModelSelect.innerHTML = '<option value=\"\">Server-managed</option>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2165,
+      "text": "DOM.embedModelSelect.innerHTML = '<option value=\"\">Server-managed</option>';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2179,
+      "text": "DOM.ttsVoiceSelect.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2213,
+      "text": "return fetch('/collections').then(function (r) { if (!r.ok) throw new Error('Collections error'); return r.json(); }).then(function (data) {"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2216,
+      "text": "if (!sel) return; sel.innerHTML = '';"
+    },
+    {
+      "path": "voice_agent_backend/frontend/script.js",
+      "line": 2262,
+      "text": "return fetch('/health').then(function (r) { if (!r.ok) throw new Error('Health check failed'); return r.json(); }).then(function (data) {"
+    }
+  ]
+}

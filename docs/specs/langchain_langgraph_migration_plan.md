@@ -1063,12 +1063,12 @@ langgraph>=0.2.0
 # In .env:
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_API_KEY=lsv2_sk_...
-LANGCHAIN_PROJECT=voice-agent-prod
+LANGCHAIN_PROJECT=voicerag-agent-prod
 
 # In config.py:
 LANGCHAIN_TRACING_V2: bool = False
 LANGCHAIN_API_KEY: str = ""
-LANGCHAIN_PROJECT: str = "voice-agent"
+LANGCHAIN_PROJECT: str = "voicerag-agent"
 
 # All LangChain components automatically trace when these are set.
 # No code changes needed beyond adding env vars.
