@@ -10,8 +10,8 @@
 | GitHub topics configured | `gh repo view RossDmello2/voice-rag-agent --json repositoryTopics` | PASS | All 20 planned topics are configured. |
 | Branch protection | `gh api repos/RossDmello2/voice-rag-agent/branches/main/protection` | PASS | `main` requires `lint`, `test (3.11)`, `Analyze (python)`, and `Analyze (javascript-typescript)`; force pushes and deletions are disabled. |
 | GitHub security automation | `gh api .../vulnerability-alerts`; `gh api .../automated-security-fixes` | PASS | Dependabot vulnerability alerts and automated security fixes are enabled or already enabled. |
-| Remote CI | GitHub Actions run `26752042459` | PASS | `lint` and `test (3.11)` passed on `main`. |
-| Remote CodeQL | GitHub Actions run `26752042388` | PASS | Python and JavaScript/TypeScript CodeQL analyses passed on `main`. |
+| Remote CI | `gh run list --repo RossDmello2/voice-rag-agent --branch main` | PASS | Latest `CI` run for the current `main` commit completed successfully. |
+| Remote CodeQL | `gh run list --repo RossDmello2/voice-rag-agent --branch main` | PASS | Latest `CodeQL` run for the current `main` commit completed successfully. |
 | Code scanning alerts | `gh api 'repos/RossDmello2/voice-rag-agent/code-scanning/alerts?state=open&per_page=100'` | GAP | 5 open alerts remain: `js/insecure-randomness`, `js/incomplete-sanitization`, `js/functionality-from-untrusted-source`, and two `py/stack-trace-exposure` findings. Core source was not changed in this docs-only polish pass. |
 | Private vulnerability reporting | `gh api repos/RossDmello2/voice-rag-agent/private-vulnerability-reporting` | PASS | Enabled for private security reports through GitHub Security Advisories. |
 | Issue forms | PyYAML parse of `.github/ISSUE_TEMPLATE/*.yml` | PASS | `bug_report.yml`, `feature_request.yml`, and `config.yml` parse successfully. |
