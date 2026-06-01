@@ -21,7 +21,7 @@ numpy>=1.24.0
 # ── Optional: Kokoro TTS (only needed if KOKORO_MODE=native or docker) ──
 kokoro-onnx>=0.3.0
 onnxruntime-gpu>=1.16.0
-misaki[en]>=0.5.0
+misaki[en]>=0.7.4
 soundfile>=0.12.1
 
 
