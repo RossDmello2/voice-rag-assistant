@@ -27,4 +27,4 @@ soundfile>=0.12.1
 
 
 # ── Optional: Search Tools ──
-duckduckgo-search>=6.0.0
+duckduckgo-search>=8.1.1
