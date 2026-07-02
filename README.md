@@ -14,6 +14,12 @@ VoiceRAG Agent is a local-first voice RAG assistant for talking to your document
 
 The project is local-first, but not fully offline by default: Groq-backed speech-to-text, translation, and chat use cloud APIs when those providers are enabled.
 
+## Why Star This Repo
+
+- End-to-end reference for voice-enabled document QA with FastAPI, LangGraph, Qdrant, Ollama, Groq, and Kokoro TTS.
+- Practical local-first architecture with screenshots, tests, health checks, and explicit provider boundaries.
+- Useful starting point for builders comparing browser voice UX, retrieval pipelines, streaming chat, and self-hosted AI workflows.
+
 More real UI views:
 
 | Document panel | Chat workflow | Mobile layout |
@@ -26,6 +32,7 @@ Conceptual workflow visual, not a product screenshot:
 
 ## Table of Contents
 
+- [Why Star This Repo](#why-star-this-repo)
 - [What It Does](#what-it-does)
 - [Who It Is For](#who-it-is-for)
 - [Architecture](#architecture)
